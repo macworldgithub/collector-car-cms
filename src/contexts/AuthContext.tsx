@@ -34,7 +34,23 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const storedToken = localStorage.getItem('token');
     if (storedToken) {
       setToken(storedToken);
-      // In a real app, you might want to validate the token with the server
+      // Decode JWT to get user info (assuming JWT contains email and name)
+      try {
+        const base64Url = storedToken.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(
+          atob(base64)
+            .split('')
+            .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+            .join('')
+        );
+        const decoded = JSON.parse(jsonPayload);
+        setUser({ email: decoded.email, name: decoded.name });
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        setUser(null);
+        localStorage.removeItem('token'); // Clear invalid token
+      }
     }
     setLoading(false);
   }, []);
@@ -43,15 +59,44 @@ export function AuthProvider({ children }: AuthProviderProps) {
     const response = await authService.signin(email, password);
     setToken(response.token);
     localStorage.setItem('token', response.token);
-    // You might want to decode the JWT to get user info
-    setUser({ email });
+    // Decode JWT to get user info
+    try {
+      const base64Url = response.token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      const decoded = JSON.parse(jsonPayload);
+      setUser({ email: decoded.email, name: decoded.name });
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      setUser({ email }); // Fallback to email if decoding fails
+    }
   };
 
   const signup = async (email: string, password: string, name: string) => {
     const response = await authService.signup(email, password, name);
     setToken(response.token);
     localStorage.setItem('token', response.token);
-    setUser({ email, name });
+    // Decode JWT to get user info
+    try {
+      const base64Url = response.token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+          .join('')
+      );
+      const decoded = JSON.parse(jsonPayload);
+      setUser({ email: decoded.email, name: decoded.name });
+    } catch (error) {
+      console.error('Error decoding token:', error);
+      setUser({ email, name }); // Fallback to provided email and name
+    }
   };
 
   const logout = () => {

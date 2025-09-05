@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
-import { Plus, Minus, Upload, X } from 'lucide-react';
+import {Minus, Upload, X } from 'lucide-react';
 import { CreateCarRequest, UpdateCarRequest, Car } from '../../types/car';
 import Input from '../UI/Input';
 import Textarea from '../UI/Textarea';
@@ -191,7 +191,6 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
             size="sm"
             onClick={() => appendFactoryOption('')}
           >
-            <Plus className="h-4 w-4 mr-1" />
             Add Option
           </Button>
         </div>
@@ -226,7 +225,6 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
             size="sm"
             onClick={() => appendHighlight('')}
           >
-            <Plus className="h-4 w-4 mr-1" />
             Add Highlight
           </Button>
         </div>
@@ -261,7 +259,6 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
             size="sm"
             onClick={() => appendKeyFeature({ label: '', value: '' })}
           >
-            <Plus className="h-4 w-4 mr-1" />
             Add Feature
           </Button>
         </div>
@@ -301,7 +298,6 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
             size="sm"
             onClick={() => appendSpecification({ label: '', value: '' })}
           >
-            <Plus className="h-4 w-4 mr-1" />
             Add Specification
           </Button>
         </div>
