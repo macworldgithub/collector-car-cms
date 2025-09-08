@@ -37,4 +37,6 @@ export interface CreateCarRequest {
   status: 'unsold' | 'sold';
 }
 
-export interface UpdateCarRequest extends Partial<CreateCarRequest> {}
+export interface UpdateCarRequest extends Partial<CreateCarRequest> {
+  images?: string[];
+}

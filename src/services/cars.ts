@@ -3,7 +3,7 @@ import { Car, CreateCarRequest, UpdateCarRequest } from '../types/car';
 
 export const carsService = {
   async getCars(): Promise<Car[]> {
-    const response = await api.get<Car[]>('/cars');
+    const response = await api.get<Car[]>('/cars/all');
     return response.data;
   },
 
@@ -101,9 +101,16 @@ export const carsService = {
         });
     }
     
+    // Append existing images as array (only if provided)
+    if (data.images) {
+      data.images
+        .filter(image => image.trim() !== '')
+        .forEach(image => formData.append('images[]', image));
+    }
+
     // Append new images if provided
     if (images) {
-      images.forEach(image => formData.append('images', image));
+      images.forEach(image => formData.append('newImages', image));
     }
 
     const response = await api.patch<Car>(`/cars/${id}`, formData, {
