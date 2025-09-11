@@ -99,7 +99,12 @@ export default function ViewCarPage() {
           {car.description && (
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Description</h3>
-              <p className="text-gray-700">{car.description}</p>
+              {/* <p className="text-gray-700">{car.description}</p> */}
+                      <div
+          className="prose max-w-none text-gray-700"
+          dangerouslySetInnerHTML={{ __html: car.description }}
+        />
+
             </div>
           )}
 
