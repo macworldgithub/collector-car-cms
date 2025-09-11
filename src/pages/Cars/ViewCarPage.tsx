@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Edit, ArrowLeft } from 'lucide-react';
@@ -99,12 +98,10 @@ export default function ViewCarPage() {
           {car.description && (
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Description</h3>
-              {/* <p className="text-gray-700">{car.description}</p> */}
-                      <div
-          className="prose max-w-none text-gray-700"
-          dangerouslySetInnerHTML={{ __html: car.description }}
-        />
-
+              <div
+                className="prose max-w-none text-gray-700 [&_ul]:list-disc [&_ul]:ml-6 [&_ol]:list-decimal [&_ol]:ml-6"
+                dangerouslySetInnerHTML={{ __html: car.description }}
+              />
             </div>
           )}
 
