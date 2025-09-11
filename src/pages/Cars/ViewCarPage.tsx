@@ -1,6 +1,7 @@
+
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Edit, ArrowLeft, CheckCircle, DollarSign } from 'lucide-react';
+import { Edit, ArrowLeft } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import { carsService } from '../../services/cars';
 import { Car } from '../../types/car';
@@ -50,11 +51,10 @@ export default function ViewCarPage() {
       </div>
 
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        {/* Image Gallery */}
         {car.images.length > 0 && (
           <div className="relative h-96 bg-gray-200">
             <img
-              src={`http://localhost:3009${car.images[currentImageIndex]}`}
+              src={car.images[currentImageIndex]}
               alt={car.title}
               className="w-full h-full object-cover"
             />
@@ -86,7 +86,6 @@ export default function ViewCarPage() {
         )}
 
         <div className="p-6 space-y-6">
-          {/* Header */}
           <div>
             <h1 className="text-3xl font-bold text-gray-900 mb-2">{car.title}</h1>
             <div className="flex items-center space-x-4">
@@ -97,14 +96,14 @@ export default function ViewCarPage() {
             </div>
           </div>
 
-          {/* Description */}
-          <div>
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Description</h3>
-            <p className="text-gray-700">{car.description}</p>
-          </div>
+          {car.description && (
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Description</h3>
+              <p className="text-gray-700">{car.description}</p>
+            </div>
+          )}
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Factory Options */}
             {car.factoryOptions.length > 0 && (
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Factory Options</h3>
@@ -116,7 +115,6 @@ export default function ViewCarPage() {
               </div>
             )}
 
-            {/* Highlights */}
             {car.highlights.length > 0 && (
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Highlights</h3>
@@ -128,7 +126,6 @@ export default function ViewCarPage() {
               </div>
             )}
 
-            {/* Key Features */}
             {car.keyFeatures.length > 0 && (
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Key Features</h3>
@@ -143,7 +140,6 @@ export default function ViewCarPage() {
               </div>
             )}
 
-            {/* Specifications */}
             {car.specifications.length > 0 && (
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">Specifications</h3>

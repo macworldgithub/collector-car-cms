@@ -1,3 +1,4 @@
+
 import api from './api';
 import { Car, CreateCarRequest, UpdateCarRequest } from '../types/car';
 
@@ -15,40 +16,34 @@ export const carsService = {
   async createCar(data: CreateCarRequest, images: File[]): Promise<Car> {
     const formData = new FormData();
     
-    // Append basic fields
     formData.append('title', data.title);
     formData.append('make', data.make);
-    formData.append('description', data.description);
-    formData.append('price', data.price.toString());
-    formData.append('status', data.status);
+    if (data.description) formData.append('description', data.description);
+    if (data.price !== undefined) formData.append('price', data.price.toString());
+    if (data.status) formData.append('status', data.status);
     
-    // Append factoryOptions as array
     data.factoryOptions
-      .filter(option => option.trim() !== '')
+      ?.filter(option => option.trim() !== '')
       .forEach(option => formData.append('factoryOptions[]', option));
     
-    // Append highlights as array
     data.highlights
-      .filter(highlight => highlight.trim() !== '')
+      ?.filter(highlight => highlight.trim() !== '')
       .forEach(highlight => formData.append('highlights[]', highlight));
     
-    // Append keyFeatures as array of objects
     data.keyFeatures
-      .filter(feature => feature.label.trim() !== '' && feature.value.trim() !== '')
+      ?.filter(feature => feature.label.trim() !== '' && feature.value.trim() !== '')
       .forEach((feature, index) => {
         formData.append(`keyFeatures[${index}][label]`, feature.label);
         formData.append(`keyFeatures[${index}][value]`, feature.value);
       });
     
-    // Append specifications as array of objects
     data.specifications
-      .filter(spec => spec.label.trim() !== '' && spec.value.trim() !== '')
+      ?.filter(spec => spec.label.trim() !== '' && spec.value.trim() !== '')
       .forEach((spec, index) => {
         formData.append(`specifications[${index}][label]`, spec.label);
         formData.append(`specifications[${index}][value]`, spec.value);
       });
     
-    // Append images
     images.forEach(image => formData.append('images', image));
 
     const response = await api.post<Car>('/cars', formData, {
@@ -57,31 +52,27 @@ export const carsService = {
     return response.data;
   },
 
-  async updateCar(id: string, data: UpdateCarRequest, images?: File[]): Promise<Car> {
+  async updateCar(id: string, data: UpdateCarRequest & { imageKeys?: string[] }, images: File[] = []): Promise<Car> {
     const formData = new FormData();
     
-    // Append updated data (only if provided)
     if (data.title) formData.append('title', data.title);
     if (data.make) formData.append('make', data.make);
     if (data.description) formData.append('description', data.description);
-    if (data.price) formData.append('price', data.price.toString());
+    if (data.price !== undefined) formData.append('price', data.price.toString());
     if (data.status) formData.append('status', data.status);
     
-    // Append factoryOptions as array (only if provided)
     if (data.factoryOptions) {
       data.factoryOptions
         .filter(option => option.trim() !== '')
         .forEach(option => formData.append('factoryOptions[]', option));
     }
     
-    // Append highlights as array (only if provided)
     if (data.highlights) {
       data.highlights
         .filter(highlight => highlight.trim() !== '')
         .forEach(highlight => formData.append('highlights[]', highlight));
     }
     
-    // Append keyFeatures as array of objects (only if provided)
     if (data.keyFeatures) {
       data.keyFeatures
         .filter(feature => feature.label.trim() !== '' && feature.value.trim() !== '')
@@ -91,7 +82,6 @@ export const carsService = {
         });
     }
     
-    // Append specifications as array of objects (only if provided)
     if (data.specifications) {
       data.specifications
         .filter(spec => spec.label.trim() !== '' && spec.value.trim() !== '')
@@ -101,17 +91,15 @@ export const carsService = {
         });
     }
     
-    // Append existing images as array (only if provided)
-    if (data.images) {
-      data.images
+    if (data.imageKeys && data.imageKeys.length > 0) {
+      data.imageKeys
         .filter(image => image.trim() !== '')
-        .forEach(image => formData.append('images[]', image));
+        .forEach(image => formData.append('imageKeys[]', image));
+    } else {
+      formData.append('imageKeys[]', '');
     }
 
-    // Append new images if provided
-    if (images) {
-      images.forEach(image => formData.append('newImages', image));
-    }
+    images.forEach(image => formData.append('newImages', image));
 
     const response = await api.patch<Car>(`/cars/${id}`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' }

@@ -1,3 +1,4 @@
+
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import { carsService } from '../../services/cars';
@@ -7,7 +8,7 @@ import CarForm from '../../components/Forms/CarForm';
 export default function CreateCarPage() {
   const navigate = useNavigate();
 
-  const handleSubmit = async (data: CreateCarRequest, images: File[]) => {
+  const handleSubmit = async (data: CreateCarRequest, images: File[], existingImages: string[]) => {
     try {
       await carsService.createCar(data, images);
       toast.success('Car created successfully!');
