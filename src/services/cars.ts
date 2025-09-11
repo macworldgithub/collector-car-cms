@@ -115,4 +115,9 @@ export const carsService = {
   async deleteCar(id: string): Promise<void> {
     await api.delete(`/cars/${id}`);
   },
+  async toggleSoldStatus(id: string): Promise<Car> {
+  const response = await api.patch<Car>(`/cars/${id}/sold`);
+  return response.data;
+}
+
 };
