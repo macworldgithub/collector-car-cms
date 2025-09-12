@@ -13,10 +13,13 @@ export default function Dashboard() {
 
   const fetchCars = async () => {
     try {
-      const data = await carsService.getCars();
-      setCars(data);
+      const response = await carsService.getCars();
+      // Extract the data array from the paginated response
+      setCars(Array.isArray(response.data) ? response.data : response.data?.data || []);
     } catch (error: any) {
       toast.error('Failed to fetch cars');
+      // Ensure cars is reset to an empty array on error
+      setCars([]);
     } finally {
       setLoading(false);
     }
@@ -45,17 +48,18 @@ export default function Dashboard() {
       toast.error('Failed to delete car');
     }
   };
+  
   const handleToggleSold = async (id: string) => {
-  try {
-    const updatedCar = await carsService.toggleSoldStatus(id);
-    setCars(prev =>
-      prev.map(car => (car._id === id ? updatedCar : car))
-    );
-    toast.success(`Car marked as ${updatedCar.status}!`);
-  } catch (error: any) {
-    toast.error('Failed to update car status');
-  }
-};
+    try {
+      const updatedCar = await carsService.toggleSoldStatus(id);
+      setCars(prev =>
+        prev.map(car => (car._id === id ? updatedCar : car))
+      );
+      toast.success(`Car marked as ${updatedCar.status}!`);
+    } catch (error: any) {
+      toast.error('Failed to update car status');
+    }
+  };
 
   useEffect(() => {
     fetchCars();
@@ -133,13 +137,13 @@ export default function Dashboard() {
                     </Button>
                   </Link>
                   <Button
-                  size="sm"
-                  variant={car.status === 'sold' ? 'warning' : 'success'}
-                  onClick={() => handleToggleSold(car._id)}
-                >
-                  <CheckCircle className="h-4 w-4 mr-1" />
-                  {car.status === 'sold' ? 'Mark Unsold' : 'Mark Sold'}
-                </Button>
+                    size="sm"
+                    variant={car.status === 'sold' ? 'warning' : 'success'}
+                    onClick={() => handleToggleSold(car._id)}
+                  >
+                    <CheckCircle className="h-4 w-4 mr-1" />
+                    {car.status === 'sold' ? 'Mark Unsold' : 'Mark Sold'}
+                  </Button>
                   <Button
                     size="sm"
                     variant="danger"
