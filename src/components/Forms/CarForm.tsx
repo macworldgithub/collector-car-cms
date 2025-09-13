@@ -513,7 +513,7 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
               <p className="mb-2 text-sm text-gray-500">
                 <span className="font-semibold">Click to upload</span> car images
               </p>
-              <p className="text-xs text-gray-500">PNG, JPG or WEBP (MAX. 10 files)</p>
+              <p className="text-xs text-gray-500">PNG, JPG or WEBP</p>
             </div>
             <input
               type="file"
