@@ -125,11 +125,24 @@ import api from './api';
 import { Car, CreateCarRequest, UpdateCarRequest } from '../types/car';
 
 export const carsService = {
-  async getCars(): Promise<Car[]> {
-    const response = await api.get<Car[]>('/cars/all');
+  // async getCars(): Promise<Car[]> {
+  //   const response = await api.get<Car[]>('/cars/all');
+  //   return response.data;
+  // },
+  async getCars(): Promise<{ data: Car[] }> {
+    const response = await api.get<{ data: Car[] }>('/cars/all');
     return response.data;
   },
 
+  async getSoldCars(): Promise<{ data: Car[] }> {
+    const response = await api.get<{ data: Car[] }>('/cars/sold');
+    return response.data;
+  },
+
+  async getUnsoldCars(): Promise<{ data: Car[] }> {
+    const response = await api.get<{ data: Car[] }>('/cars');
+    return response.data;
+  },
   async getCar(id: string): Promise<Car> {
     const response = await api.get<Car>(`/cars/${id}`);
     return response.data;
