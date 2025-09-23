@@ -1,4 +1,3 @@
-
 // export interface Car {
 //   _id: string;
 //   title: string;
@@ -7,12 +6,16 @@
 //   price: number;
 //   imageKeys: string[];
 //   images: string[];
+//   videoKeys: string[];
+//   videos: string[];
+//   youtubeLinks: string[];
 //   factoryOptions: string[];
 //   highlights: string[];
 //   keyFeatures: { label: string; value: string }[];
 //   specifications: { label: string; value: string }[];
 //   status: 'unsold' | 'sold';
 //   userId: string;
+//   slug: string;
 // }
 
 // export interface CreateCarRequest {
@@ -25,6 +28,7 @@
 //   keyFeatures?: { label: string; value: string }[];
 //   specifications?: { label: string; value: string }[];
 //   status?: 'unsold' | 'sold';
+//   youtubeLinks?: string[];
 // }
 
 // export interface UpdateCarRequest {
@@ -38,6 +42,8 @@
 //   specifications?: { label: string; value: string }[];
 //   status?: 'unsold' | 'sold';
 //   imageKeys?: string[];
+//   videoKeys?: string[];
+//   youtubeLinks?: string[];
 // }
 export interface Car {
   _id: string;
@@ -54,7 +60,7 @@ export interface Car {
   highlights: string[];
   keyFeatures: { label: string; value: string }[];
   specifications: { label: string; value: string }[];
-  status: 'unsold' | 'sold';
+  status: 'unsold' | 'sold' | 'deposit';
   userId: string;
   slug: string;
 }
@@ -68,7 +74,7 @@ export interface CreateCarRequest {
   highlights?: string[];
   keyFeatures?: { label: string; value: string }[];
   specifications?: { label: string; value: string }[];
-  status?: 'unsold' | 'sold';
+  status?: 'unsold' | 'sold' | 'deposit';
   youtubeLinks?: string[];
 }
 
@@ -81,7 +87,7 @@ export interface UpdateCarRequest {
   highlights?: string[];
   keyFeatures?: { label: string; value: string }[];
   specifications?: { label: string; value: string }[];
-  status?: 'unsold' | 'sold';
+  status?: 'unsold' | 'sold' | 'deposit';
   imageKeys?: string[];
   videoKeys?: string[];
   youtubeLinks?: string[];
