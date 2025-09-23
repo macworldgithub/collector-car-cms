@@ -466,14 +466,27 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
     setIsSubmitting(false);
   }
 };
-  const quillModules = {
-    toolbar: [
-      ['bold', 'italic', 'underline'],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      ['link', 'clean'],
-    ],
-  };
-
+  // const quillModules = {
+  //   toolbar: [
+  //     ['bold', 'italic', 'underline'],
+  //     [{ list: 'ordered' }, { list: 'bullet' }],
+  //     ['link', 'clean'],
+  //   ],
+  // };
+   const quillModules = {
+  toolbar: [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],   // Headings
+    [{ size: [] }],                            // Font size
+    ['bold', 'italic', 'underline', 'strike'], // Basic styles
+    [{ color: [] }, { background: [] }],       // Text color & highlight
+    [{ script: 'sub' }, { script: 'super' }],  // Subscript / superscript
+    [{ list: 'ordered' }, { list: 'bullet' }], // Lists
+    [{ indent: '-1' }, { indent: '+1' }],      // Indent / outdent
+    [{ align: [] }],                           // Alignments
+    ['blockquote', 'code-block'],              // Blockquote & code
+    ['clean'],                                 // Remove formatting
+  ],
+};
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
