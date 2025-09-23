@@ -11,7 +11,8 @@ import CreateCarPage from './pages/Cars/CreateCarPage';
 import EditCarPage from './pages/Cars/EditCarPage';
 import ViewCarPage from './pages/Cars/ViewCarPage';
 import LoadingSpinner from './components/UI/LoadingSpinner';
-
+import TestimonialForm from './components/Forms/TestimonialForm';
+import TestimonialsManagement from './pages/Testimonials/TestimonialsManagement';
 function App() {
   const { loading } = useAuth();
 
@@ -38,6 +39,9 @@ function App() {
           <Route path="cars/create" element={<CreateCarPage />} />
           <Route path="cars/:id" element={<ViewCarPage />} />
           <Route path="cars/:id/edit" element={<EditCarPage />} />
+          <Route path="testimonials" element={<TestimonialsManagement />} />
+          <Route path="testimonials/create" element={<TestimonialForm />} />
+          <Route path="testimonials/:id/edit" element={<TestimonialForm />} />
         </Route>
       </Routes>
     </div>

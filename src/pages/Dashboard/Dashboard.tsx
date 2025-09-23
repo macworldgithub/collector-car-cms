@@ -468,7 +468,7 @@ export default function Dashboard() {
           <Link to="/cars/create" className="mt-4 inline-block">
             <Button>
               <Plus className="h-4 w-4 mr-2" />
-              Add Your First Car
+              Add New Car
             </Button>
           </Link>
         </div>
