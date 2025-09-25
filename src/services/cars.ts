@@ -314,7 +314,81 @@ export const carsService = {
     return response.data;
   },
 
-   async updateCar(id: string, data: UpdateCarRequest & { imageKeys?: string[], videoKeys?: string[], youtubeLinks?: string[] }, images: File[] = [], videos: File[] = []): Promise<Car> {
+//    async updateCar(id: string, data: UpdateCarRequest & { imageKeys?: string[], videoKeys?: string[], youtubeLinks?: string[] }, images: File[] = [], videos: File[] = []): Promise<Car> {
+//   const formData = new FormData();
+
+//   if (data.title) formData.append('title', data.title);
+//   if (data.make) formData.append('make', data.make);
+//   if (data.description) formData.append('description', data.description);
+//   if (data.price !== undefined) formData.append('price', data.price.toString());
+//   if (data.status) formData.append('status', data.status);
+
+//   if (data.factoryOptions) {
+//     const filteredFactoryOptions = data.factoryOptions.filter(option => option.trim() !== '');
+//     if (filteredFactoryOptions.length > 0) {
+//       filteredFactoryOptions.forEach(option => formData.append('factoryOptions[]', option));
+//     }
+//   }
+
+//   if (data.highlights) {
+//     const filteredHighlights = data.highlights.filter(highlight => highlight.trim() !== '');
+//     if (filteredHighlights.length > 0) {
+//       filteredHighlights.forEach(highlight => formData.append('highlights[]', highlight));
+//     }
+//   }
+
+//   if (data.keyFeatures) {
+//     const filteredKeyFeatures = data.keyFeatures.filter(feature => feature.label.trim() !== '' && feature.value.trim() !== '');
+//     if (filteredKeyFeatures.length > 0) {
+//       filteredKeyFeatures.forEach((feature, index) => {
+//         formData.append(`keyFeatures[${index}][label]`, feature.label);
+//         formData.append(`keyFeatures[${index}][value]`, feature.value);
+//       });
+//     }
+//   }
+
+//   if (data.specifications) {
+//     const filteredSpecifications = data.specifications.filter(spec => spec.label.trim() !== '' && spec.value.trim() !== '');
+//     if (filteredSpecifications.length > 0) {
+//       filteredSpecifications.forEach((spec, index) => {
+//         formData.append(`specifications[${index}][label]`, spec.label);
+//         formData.append(`specifications[${index}][value]`, spec.value);
+//       });
+//     }
+//   }
+
+//   const filteredImageKeys = data.imageKeys ? data.imageKeys.filter(image => image.trim() !== '') : [];
+//   if (filteredImageKeys.length > 0) {
+//     filteredImageKeys.forEach(image => formData.append('imageKeys[]', image));
+//   }
+
+//   const filteredVideoKeys = data.videoKeys ? data.videoKeys.filter(video => video.trim() !== '') : [];
+//   if (filteredVideoKeys.length > 0) {
+//     filteredVideoKeys.forEach(video => formData.append('videoKeys[]', video));
+//   }
+
+//   // Only append youtubeLinks if there are valid URLs
+//   if (data.youtubeLinks) {
+//     const filteredYoutubeLinks = data.youtubeLinks.filter(link => link.trim() !== '' && /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/.test(link));
+//     if (filteredYoutubeLinks.length > 0) {
+//       filteredYoutubeLinks.forEach(link => formData.append('youtubeLinks[]', link));
+//     }
+//   }
+
+//   images.forEach(image => formData.append('newImages', image));
+//   videos.forEach(video => formData.append('newVideos', video));
+
+//   const response = await api.patch<Car>(`/cars/${id}`, formData, {
+//     headers: { 'Content-Type': 'multipart/form-data' }
+//   });
+//   return response.data;
+// },
+async updateCar(
+  id: string,
+  data: UpdateCarRequest & { imageKeys?: string[], videoKeys?: string[], youtubeLinks?: string[] },
+  images: File[] = [],
+  videos: File[] = []
+): Promise<Car> {
   const formData = new FormData();
 
   if (data.title) formData.append('title', data.title);
@@ -324,62 +398,52 @@ export const carsService = {
   if (data.status) formData.append('status', data.status);
 
   if (data.factoryOptions) {
-    const filteredFactoryOptions = data.factoryOptions.filter(option => option.trim() !== '');
-    if (filteredFactoryOptions.length > 0) {
-      filteredFactoryOptions.forEach(option => formData.append('factoryOptions[]', option));
-    }
+    const filteredFactoryOptions = data.factoryOptions.filter((option) => option.trim() !== '');
+    filteredFactoryOptions.forEach((option) => formData.append('factoryOptions[]', option));
   }
 
   if (data.highlights) {
-    const filteredHighlights = data.highlights.filter(highlight => highlight.trim() !== '');
-    if (filteredHighlights.length > 0) {
-      filteredHighlights.forEach(highlight => formData.append('highlights[]', highlight));
-    }
+    const filteredHighlights = data.highlights.filter((highlight) => highlight.trim() !== '');
+    filteredHighlights.forEach((highlight) => formData.append('highlights[]', highlight));
   }
 
   if (data.keyFeatures) {
-    const filteredKeyFeatures = data.keyFeatures.filter(feature => feature.label.trim() !== '' && feature.value.trim() !== '');
-    if (filteredKeyFeatures.length > 0) {
-      filteredKeyFeatures.forEach((feature, index) => {
-        formData.append(`keyFeatures[${index}][label]`, feature.label);
-        formData.append(`keyFeatures[${index}][value]`, feature.value);
-      });
-    }
+    const filteredKeyFeatures = data.keyFeatures.filter(
+      (feature) => feature.label.trim() !== '' && feature.value.trim() !== ''
+    );
+    filteredKeyFeatures.forEach((feature, index) => {
+      formData.append(`keyFeatures[${index}][label]`, feature.label);
+      formData.append(`keyFeatures[${index}][value]`, feature.value);
+    });
   }
 
   if (data.specifications) {
-    const filteredSpecifications = data.specifications.filter(spec => spec.label.trim() !== '' && spec.value.trim() !== '');
-    if (filteredSpecifications.length > 0) {
-      filteredSpecifications.forEach((spec, index) => {
-        formData.append(`specifications[${index}][label]`, spec.label);
-        formData.append(`specifications[${index}][value]`, spec.value);
-      });
-    }
+    const filteredSpecifications = data.specifications.filter(
+      (spec) => spec.label.trim() !== '' && spec.value.trim() !== ''
+    );
+    filteredSpecifications.forEach((spec, index) => {
+      formData.append(`specifications[${index}][label]`, spec.label);
+      formData.append(`specifications[${index}][value]`, spec.value);
+    });
   }
 
-  const filteredImageKeys = data.imageKeys ? data.imageKeys.filter(image => image.trim() !== '') : [];
-  if (filteredImageKeys.length > 0) {
-    filteredImageKeys.forEach(image => formData.append('imageKeys[]', image));
-  }
+  // Always append imageKeys and videoKeys, even if empty
+  (data.imageKeys || []).forEach((image) => formData.append('imageKeys[]', image));
+  (data.videoKeys || []).forEach((video) => formData.append('videoKeys[]', video));
 
-  const filteredVideoKeys = data.videoKeys ? data.videoKeys.filter(video => video.trim() !== '') : [];
-  if (filteredVideoKeys.length > 0) {
-    filteredVideoKeys.forEach(video => formData.append('videoKeys[]', video));
-  }
-
-  // Only append youtubeLinks if there are valid URLs
+  // Append youtubeLinks if valid
   if (data.youtubeLinks) {
-    const filteredYoutubeLinks = data.youtubeLinks.filter(link => link.trim() !== '' && /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/.test(link));
-    if (filteredYoutubeLinks.length > 0) {
-      filteredYoutubeLinks.forEach(link => formData.append('youtubeLinks[]', link));
-    }
+    const filteredYoutubeLinks = data.youtubeLinks.filter(
+      (link) => link.trim() !== '' && /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/.test(link)
+    );
+    filteredYoutubeLinks.forEach((link) => formData.append('youtubeLinks[]', link));
   }
 
-  images.forEach(image => formData.append('newImages', image));
-  videos.forEach(video => formData.append('newVideos', video));
+  images.forEach((image) => formData.append('newImages', image));
+  videos.forEach((video) => formData.append('newVideos', video));
 
   const response = await api.patch<Car>(`/cars/${id}`, formData, {
-    headers: { 'Content-Type': 'multipart/form-data' }
+    headers: { 'Content-Type': 'multipart/form-data' },
   });
   return response.data;
 },

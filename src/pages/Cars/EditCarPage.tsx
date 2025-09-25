@@ -26,10 +26,10 @@
 //     }
 //   };
 
-//   const handleSubmit = async (data: UpdateCarRequest, images: File[], existingImages: string[]) => {
+//   const handleSubmit = async (data: UpdateCarRequest, images: File[], videos: File[], existingImages: string[], existingVideos: string[], youtubeLinks: string[]) => {
 //     try {
 //       if (!id) return;
-//       await carsService.updateCar(id, { ...data, imageKeys: existingImages }, images);
+//       await carsService.updateCar(id, { ...data, imageKeys: existingImages, videoKeys: existingVideos, youtubeLinks }, images, videos);
 //       toast.success('Car updated successfully!');
 //       navigate('/dashboard');
 //     } catch (error: any) {
@@ -69,7 +69,11 @@ export default function EditCarPage() {
 
   const fetchCar = async () => {
     try {
-      if (!id) return;
+      if (!id) {
+        toast.error('Invalid car ID');
+        navigate('/dashboard');
+        return;
+      }
       const data = await carsService.getCar(id);
       setCar(data);
     } catch (error: any) {
@@ -80,10 +84,25 @@ export default function EditCarPage() {
     }
   };
 
-  const handleSubmit = async (data: UpdateCarRequest, images: File[], videos: File[], existingImages: string[], existingVideos: string[], youtubeLinks: string[]) => {
+  const handleSubmit = async (
+    data: UpdateCarRequest,
+    images: File[],
+    videos: File[],
+    existingImages: string[],
+    existingVideos: string[],
+    youtubeLinks: string[]
+  ) => {
     try {
-      if (!id) return;
-      await carsService.updateCar(id, { ...data, imageKeys: existingImages, videoKeys: existingVideos, youtubeLinks }, images, videos);
+      if (!id) {
+        toast.error('Invalid car ID');
+        return;
+      }
+      await carsService.updateCar(id, {
+        ...data,
+        imageKeys: existingImages.length > 0 ? existingImages : undefined,
+        videoKeys: existingVideos.length > 0 ? existingVideos : undefined,
+        youtubeLinks: youtubeLinks.length > 0 ? youtubeLinks : undefined,
+      }, images, videos);
       toast.success('Car updated successfully!');
       navigate('/dashboard');
     } catch (error: any) {
