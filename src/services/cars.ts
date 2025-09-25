@@ -254,7 +254,7 @@ export const carsService = {
   },
 
   async getUnsoldCars(): Promise<{ data: Car[] }> {
-    const response = await api.get<{ data: Car[] }>('/cars');
+    const response = await api.get<{ data: Car[] }>('/cars/unsold-strict');
     return response.data;
   },
 
