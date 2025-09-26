@@ -1121,7 +1121,7 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
             {...register('status')}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
-            <option value="unsold">Unsold</option>
+            <option value="unsold">Available</option>
             <option value="deposit">Deposit Taken</option>
             <option value="sold">Sold</option>
           </select>

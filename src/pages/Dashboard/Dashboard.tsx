@@ -396,7 +396,10 @@ export default function Dashboard() {
       setCars(prev =>
         prev.map(car => (car._id === id ? updatedCar : car))
       );
-      toast.success(`Car marked as ${updatedCar.status}!`);
+      // toast.success(`Car marked as ${updatedCar.status}!`);
+      toast.success(
+  `Car marked as ${updatedCar.status === "unsold" ? "available" : updatedCar.status}!`
+);
     } catch (error: any) {
       toast.error('Failed to update car status');
     }
@@ -444,7 +447,7 @@ export default function Dashboard() {
             variant={filter === 'unsold' ? 'primary' : 'secondary'}
             size="sm"
           >
-            Unsold Cars
+            Available Cars
           </Button>
           <Button
             onClick={() => setFilter('deposit')}
@@ -488,7 +491,7 @@ export default function Dashboard() {
                     <span className="text-gray-400">No Image</span>
                   </div>
                 )}
-                <div className="absolute top-2 right-2">
+                {/* <div className="absolute top-2 right-2">
                   <span
                     className={`px-2 py-1 text-xs font-semibold rounded-full ${
                       car.status === 'sold'
@@ -500,7 +503,21 @@ export default function Dashboard() {
                   >
                     {car.status.toUpperCase()}
                   </span>
+                </div> */}
+                <div className="absolute top-2 right-2">
+                  <span
+                    className={`px-2 py-1 text-xs font-semibold rounded-full ${
+                      car.status === "sold"
+                        ? "bg-red-100 text-red-800"
+                        : car.status === "deposit"
+                        ? "bg-yellow-100 text-yellow-800"
+                        : "bg-green-100 text-green-800"
+                    }`}
+                  >
+                    {car.status === "unsold" ? "AVAILABLE" : car.status.toUpperCase()}
+                  </span>
                 </div>
+
               </div>
               <div className="p-4">
                 <h3 className="text-lg font-semibold text-gray-900 mb-1">{car.title}</h3>
@@ -534,7 +551,7 @@ export default function Dashboard() {
                   >
                     <CheckCircle className="h-4 w-4 mr-1" />
                     {car.status === 'sold'
-                      ? 'Mark Unsold'
+                      ? 'Mark Available'
                       : car.status === 'deposit'
                       ? 'Mark Sold'
                       : 'Mark Deposit'}
