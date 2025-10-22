@@ -1,11 +1,11 @@
-// import React, { useState, useEffect } from 'react';
-// import { useForm, useFieldArray } from 'react-hook-form';
-// import { Minus, Upload, X } from 'lucide-react';
-// import { CreateCarRequest, UpdateCarRequest, Car } from '../../types/car';
-// import Input from '../UI/Input';
-// import Button from '../UI/Button';
-// import ReactQuill from 'react-quill';
-// import 'react-quill/dist/quill.snow.css';
+// import React, { useState, useEffect } from "react";
+// import { useForm, useFieldArray } from "react-hook-form";
+// import { Minus, Upload, X } from "lucide-react";
+// import { CreateCarRequest, UpdateCarRequest, Car } from "../../types/car";
+// import Input from "../UI/Input";
+// import Button from "../UI/Button";
+// import ReactQuill from "react-quill";
+// import "react-quill/dist/quill.snow.css";
 
 // interface CarFormProps {
 //   initialData?: Car;
@@ -24,479 +24,15 @@
 //   const [videos, setVideos] = useState<File[]>([]);
 //   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 //   const [videoPreviews, setVideoPreviews] = useState<string[]>([]);
-//   const [existingImages, setExistingImages] = useState<string[]>(initialData?.imageKeys || []);
-//   const [existingVideos, setExistingVideos] = useState<string[]>(initialData?.videoKeys || []);
-//   const [youtubeLinks, setYoutubeLinks] = useState<string[]>(initialData?.youtubeLinks || []);
-//   const [isSubmitting, setIsSubmitting] = useState(false);
-
-//   // const {
-//   //   register,
-//   //   control,
-//   //   handleSubmit,
-//   //   formState: { errors },
-//   //   setValue,
-//   //   watch,
-//   // } = useForm<CreateCarRequest>({
-//   //   defaultValues: {
-//   //     title: initialData?.title || '',
-//   //     make: initialData?.make || '',
-//   //     description: initialData?.description || '',
-//   //     price: initialData?.price || 0,
-//   //     factoryOptions: initialData?.factoryOptions || [],
-//   //     highlights: initialData?.highlights || [],
-//   //     keyFeatures: initialData?.keyFeatures || [],
-//   //     specifications: initialData?.specifications || [],
-//   //     status: initialData?.status || 'unsold',
-//   //     youtubeLinks: initialData?.youtubeLinks || [],
-//   //   },
-//   // });
-//     const {
-//     register,
-//     control,
-//     handleSubmit,
-//     formState: { errors },
-//     setValue,
-//     watch,
-//   } = useForm<CreateCarRequest>({
-//     defaultValues: {
-//       title: initialData?.title || '',
-//       make: initialData?.make || '',
-//       description: initialData?.description || '',
-//       price: initialData?.price || 0,
-//       factoryOptions: initialData?.factoryOptions || [],
-//       highlights: initialData?.highlights || [],
-//       keyFeatures: initialData?.keyFeatures || [
-//         { label: 'Exterior Colour', value: '' },
-//         { label: 'Interior', value: '' },
-//         { label: 'Suspension', value: '' },
-//         { label: 'Wheels', value: '' },
-//       ],
-//       specifications: initialData?.specifications || [
-//         { label: 'Make/Model', value: '' },
-//         { label: 'Mileage', value: '' },
-//         { label: 'Engine', value: '' },
-//         { label: 'Transmission', value: '' },
-//       ],
-//       status: initialData?.status || 'unsold',
-//       youtubeLinks: initialData?.youtubeLinks || [],
-//     },
-//   });
-
-//   const {
-//     fields: factoryOptionsFields,
-//     append: appendFactoryOption,
-//     remove: removeFactoryOption,
-//   } = useFieldArray({ control, name: 'factoryOptions' });
-
-//   const {
-//     fields: highlightsFields,
-//     append: appendHighlight,
-//     remove: removeHighlight,
-//   } = useFieldArray({ control, name: 'highlights' });
-
-//   const {
-//     fields: keyFeaturesFields,
-//     append: appendKeyFeature,
-//     remove: removeKeyFeature,
-//   } = useFieldArray({ control, name: 'keyFeatures' });
-
-//   const {
-//     fields: specificationsFields,
-//     append: appendSpecification,
-//     remove: removeSpecification,
-//   } = useFieldArray({ control, name: 'specifications' });
-
-//   const {
-//     fields: youtubeLinksFields,
-//     append: appendYoutubeLink,
-//     remove: removeYoutubeLink,
-//   } = useFieldArray({ control, name: 'youtubeLinks' });
-
-//   useEffect(() => {
-//     if (initialData?.images) {
-//       setImagePreviews(initialData.images);
-//       setExistingImages(initialData.imageKeys);
-//     }
-//     if (initialData?.videos) {
-//       setVideoPreviews(initialData.videos);
-//       setExistingVideos(initialData.videoKeys);
-//     }
-//     if (initialData?.youtubeLinks) {
-//       setYoutubeLinks(initialData.youtubeLinks);
-//       setValue('youtubeLinks', initialData.youtubeLinks);
-//     }
-//   }, [initialData, setValue]);
-
-//   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     const files = Array.from(e.target.files || []);
-//     setImages((prev) => [...prev, ...files]);
-//     const newPreviews = files.map((file) => URL.createObjectURL(file));
-//     setImagePreviews((prev) => [...prev, ...newPreviews]);
-//   };
-
-//   const handleVideoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     const files = Array.from(e.target.files || []);
-//     setVideos((prev) => [...prev, ...files]);
-//     const newPreviews = files.map((file) => URL.createObjectURL(file));
-//     setVideoPreviews((prev) => [...prev, ...newPreviews]);
-//   };
-
-//   const removeImage = (index: number) => {
-//     if (index < existingImages.length) {
-//       const newExistingImages = existingImages.filter((_, i) => i !== index);
-//       setExistingImages(newExistingImages);
-//       setImagePreviews((prev) => prev.filter((_, i) => i !== index));
-//     } else {
-//       const newImages = images.filter((_, i) => i !== index - existingImages.length);
-//       setImages(newImages);
-//       const newPreviews = imagePreviews.filter((_, i) => i !== index);
-//       setImagePreviews(newPreviews);
-//       URL.revokeObjectURL(imagePreviews[index]);
-//     }
-//   };
-
-//   const removeVideo = (index: number) => {
-//     if (index < existingVideos.length) {
-//       const newExistingVideos = existingVideos.filter((_, i) => i !== index);
-//       setExistingVideos(newExistingVideos);
-//       setVideoPreviews((prev) => prev.filter((_, i) => i !== index));
-//     } else {
-//       const newVideos = videos.filter((_, i) => i !== index - existingVideos.length);
-//       setVideos(newVideos);
-//       const newPreviews = videoPreviews.filter((_, i) => i !== index);
-//       setVideoPreviews(newPreviews);
-//       URL.revokeObjectURL(videoPreviews[index]);
-//     }
-//   };
-
-//   // const handleFormSubmit = async (data: CreateCarRequest) => {
-//   //   setIsSubmitting(true);
-//   //   try {
-//   //     await onSubmit(data, images, videos, existingImages, existingVideos, youtubeLinks);
-//   //   } finally {
-//   //     setIsSubmitting(false);
-//   //   }
-//   // };
-//   const handleFormSubmit = async (data: CreateCarRequest) => {
-//   setIsSubmitting(true);
-//   try {
-//     // Filter out invalid or empty YouTube links
-//     const validYoutubeLinks = youtubeLinks.filter(link => link.trim() !== '' && /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/.test(link));
-//     await onSubmit(
-//       {
-//         ...data,
-//         youtubeLinks: validYoutubeLinks.length > 0 ? validYoutubeLinks : undefined,
-//       },
-//       images,
-//       videos,
-//       existingImages,
-//       existingVideos,
-//       validYoutubeLinks
-//     );
-//   } finally {
-//     setIsSubmitting(false);
-//   }
-// };
-//   // const quillModules = {
-//   //   toolbar: [
-//   //     ['bold', 'italic', 'underline'],
-//   //     [{ list: 'ordered' }, { list: 'bullet' }],
-//   //     ['link', 'clean'],
-//   //   ],
-//   // };
-//    const quillModules = {
-//   toolbar: [
-//     [{ header: [1, 2, 3, 4, 5, 6, false] }],   // Headings
-//     [{ size: [] }],                            // Font size
-//     ['bold', 'italic', 'underline', 'strike'], // Basic styles
-//     [{ color: [] }, { background: [] }],       // Text color & highlight
-//     [{ script: 'sub' }, { script: 'super' }],  // Subscript / superscript
-//     [{ list: 'ordered' }, { list: 'bullet' }], // Lists
-//     [{ indent: '-1' }, { indent: '+1' }],      // Indent / outdent
-//     [{ align: [] }],                           // Alignments
-//     ['blockquote', 'code-block'],              // Blockquote & code
-//     ['clean'],                                 // Remove formatting
-//   ],
-// };
-//   return (
-//     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-8">
-//       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-//         <Input
-//           label="Title"
-//           {...register('title', { required: 'Title is required',setValueAs: (v) => v.trim(), })}
-//           error={errors.title?.message}
-//         />
-//         <Input
-//           label="Make"
-//           {...register('make', { required: 'Make is required',setValueAs: (v) => v.trim(), })}
-//           error={errors.make?.message}
-//         />
-//         <Input
-//           label="Price"
-//           type="number"
-//           {...register('price', {
-//             required: 'Price is required',
-//             min: { value: 0, message: 'Price must be positive' },
-//           })}
-//           error={errors.price?.message}
-//         />
-//         <div className="space-y-1">
-//           <label className="block text-sm font-medium text-gray-700">Status</label>
-//           <select
-//             {...register('status')}
-//             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-//           >
-//             <option value="unsold">Unsold</option>
-//             <option value="sold">Sold</option>
-//           </select>
-//         </div>
-//       </div>
-
-//       <div className="space-y-1">
-//         <label className="block text-sm font-medium text-gray-700">Description</label>
-//         <ReactQuill
-//           theme="snow"
-//           value={watch('description')}
-//           onChange={(value) => setValue('description', value, { shouldValidate: true })}
-//           modules={quillModules}
-//           className="bg-white rounded-lg"
-//         />
-//         {errors.description && (
-//           <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
-//         )}
-//       </div>
-
-//       <div className="space-y-4">
-//         <label className="block text-sm font-medium text-gray-700">Images</label>
-//         <div className="flex items-center justify-center w-full">
-//           <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-//             <div className="flex flex-col items-center justify-center pt-5 pb-6">
-//               <Upload className="w-8 h-8 mb-4 text-gray-500" />
-//               <p className="mb-2 text-sm text-gray-500">
-//                 <span className="font-semibold">Click to upload</span> car images
-//               </p>
-//               <p className="text-xs text-gray-500">PNG, JPG or WEBP</p>
-//             </div>
-//             <input
-//               type="file"
-//               multiple
-//               accept="image/*"
-//               onChange={handleImageChange}
-//               className="hidden"
-//             />
-//           </label>
-//         </div>
-
-//         {imagePreviews.length > 0 && (
-//           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-//             {imagePreviews.map((preview, index) => (
-//               <div key={index} className="relative">
-//                 <img
-//                   src={preview}
-//                   alt={`Image Preview ${index + 1}`}
-//                   className="w-full h-32 object-cover rounded-lg"
-//                 />
-//                 <button
-//                   type="button"
-//                   onClick={() => removeImage(index)}
-//                   className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
-//                 >
-//                   <X className="h-4 w-4" />
-//                 </button>
-//               </div>
-//             ))}
-//           </div>
-//         )}
-//       </div>
-
-//       <div className="space-y-4">
-//         <label className="block text-sm font-medium text-gray-700">Videos</label>
-//         <div className="flex items-center justify-center w-full">
-//           <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
-//             <div className="flex flex-col items-center justify-center pt-5 pb-6">
-//               <Upload className="w-8 h-8 mb-4 text-gray-500" />
-//               <p className="mb-2 text-sm text-gray-500">
-//                 <span className="font-semibold">Click to upload</span> car videos
-//               </p>
-//               <p className="text-xs text-gray-500">MP4, AVI, MOV, or other video formats</p>
-//             </div>
-//             <input
-//               type="file"
-//               multiple
-//               accept="video/*"
-//               onChange={handleVideoChange}
-//               className="hidden"
-//             />
-//           </label>
-//         </div>
-
-//         {videoPreviews.length > 0 && (
-//           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-//             {videoPreviews.map((preview, index) => (
-//               <div key={index} className="relative">
-//                 <video
-//                   src={preview}
-//                   controls
-//                   className="w-full h-32 object-cover rounded-lg"
-//                 />
-//                 <button
-//                   type="button"
-//                   onClick={() => removeVideo(index)}
-//                   className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600"
-//                 >
-//                   <X className="h-4 w-4" />
-//                 </button>
-//               </div>
-//             ))}
-//           </div>
-//         )}
-//       </div>
-
-//       <div className="space-y-4">
-//         <div className="flex items-center justify-between">
-//           <label className="block text-sm font-medium text-gray-700">YouTube Links</label>
-//           <Button type="button" variant="secondary" size="sm" onClick={() => appendYoutubeLink('')}>
-//             Add YouTube Link
-//           </Button>
-//         </div>
-//         {youtubeLinksFields.map((field, index) => (
-//           <div key={field.id} className="flex space-x-2">
-//             <Input
-//               {...register(`youtubeLinks.${index}` as const, {
-//                 pattern: {
-//                   value: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/,
-//                   message: 'Please enter a valid YouTube URL',
-//                 },
-//               })}
-//               placeholder="YouTube video URL"
-//               className="flex-1"
-//               onChange={(e) => {
-//                 const newLinks = [...youtubeLinks];
-//                 newLinks[index] = e.target.value;
-//                 setYoutubeLinks(newLinks);
-//               }}
-//             />
-//             <Button type="button" variant="danger" size="sm" onClick={() => {
-//               removeYoutubeLink(index);
-//               const newLinks = youtubeLinks.filter((_, i) => i !== index);
-//               setYoutubeLinks(newLinks);
-//             }}>
-//               <Minus className="h-4 w-4" />
-//             </Button>
-//           </div>
-//         ))}
-//         {errors.youtubeLinks && (
-//           <p className="text-red-500 text-sm mt-1">{errors.youtubeLinks.message}</p>
-//         )}
-//       </div>
-
-//       <div className="space-y-4">
-//         <div className="flex items-center justify-between">
-//           <label className="block text-sm font-medium text-gray-700">Factory Options</label>
-//           <Button type="button" variant="secondary" size="sm" onClick={() => appendFactoryOption('')}>
-//             Add Option
-//           </Button>
-//         </div>
-//         {factoryOptionsFields.map((field, index) => (
-//           <div key={field.id} className="flex space-x-2">
-//             <Input {...register(`factoryOptions.${index}` as const)} placeholder="Factory option" className="flex-1" />
-//             <Button type="button" variant="danger" size="sm" onClick={() => removeFactoryOption(index)}>
-//               <Minus className="h-4 w-4" />
-//             </Button>
-//           </div>
-//         ))}
-//       </div>
-
-//       <div className="space-y-4">
-//         <div className="flex items-center justify-between">
-//           <label className="block text-sm font-medium text-gray-700">Highlights</label>
-//           <Button type="button" variant="secondary" size="sm" onClick={() => appendHighlight('')}>
-//             Add Highlight
-//           </Button>
-//         </div>
-//         {highlightsFields.map((field, index) => (
-//           <div key={field.id} className="flex space-x-2">
-//             <Input {...register(`highlights.${index}` as const)} placeholder="Highlight" className="flex-1" />
-//             <Button type="button" variant="danger" size="sm" onClick={() => removeHighlight(index)}>
-//               <Minus className="h-4 w-4" />
-//             </Button>
-//           </div>
-//         ))}
-//       </div>
-
-//       <div className="space-y-4">
-//         <div className="flex items-center justify-between">
-//           <label className="block text-sm font-medium text-gray-700">Key Features</label>
-//           <Button type="button" variant="secondary" size="sm" onClick={() => appendKeyFeature({ label: '', value: '' })}>
-//             Add Feature
-//           </Button>
-//         </div>
-//         {keyFeaturesFields.map((field, index) => (
-//           <div key={field.id} className="flex space-x-2">
-//             <Input {...register(`keyFeatures.${index}.label` as const)} placeholder="Feature name" className="flex-1" />
-//             <Input {...register(`keyFeatures.${index}.value` as const)} placeholder="Feature value" className="flex-1" />
-//             <Button type="button" variant="danger" size="sm" onClick={() => removeKeyFeature(index)}>
-//               <Minus className="h-4 w-4" />
-//             </Button>
-//           </div>
-//         ))}
-//       </div>
-
-//       <div className="space-y-4">
-//         <div className="flex items-center justify-between">
-//           <label className="block text-sm font-medium text-gray-700">Specifications</label>
-//           <Button type="button" variant="secondary" size="sm" onClick={() => appendSpecification({ label: '', value: '' })}>
-//             Add Specification
-//           </Button>
-//         </div>
-//         {specificationsFields.map((field, index) => (
-//           <div key={field.id} className="flex space-x-2">
-//             <Input {...register(`specifications.${index}.label` as const)} placeholder="Specification name" className="flex-1" />
-//             <Input {...register(`specifications.${index}.value` as const)} placeholder="Specification value" className="flex-1" />
-//             <Button type="button" variant="danger" size="sm" onClick={() => removeSpecification(index)}>
-//               <Minus className="h-4 w-4" />
-//             </Button>
-//           </div>
-//         ))}
-//       </div>
-
-//       <div className="flex justify-end space-x-4">
-//         <Button type="submit" disabled={isSubmitting} size="lg">
-//           {isSubmitting ? 'Saving...' : initialData ? 'Update Car' : 'Create Car'}
-//         </Button>
-//       </div>
-//     </form>
+//   const [existingImages, setExistingImages] = useState<string[]>(
+//     initialData?.imageKeys || []
 //   );
-// }
-// import React, { useState, useEffect } from 'react';
-// import { useForm, useFieldArray } from 'react-hook-form';
-// import { Minus, Upload, X } from 'lucide-react';
-// import { CreateCarRequest, UpdateCarRequest, Car } from '../../types/car';
-// import Input from '../UI/Input';
-// import Button from '../UI/Button';
-// import ReactQuill from 'react-quill';
-// import 'react-quill/dist/quill.snow.css';
-
-// interface CarFormProps {
-//   initialData?: Car;
-//   onSubmit: (
-//     data: CreateCarRequest | UpdateCarRequest,
-//     images: File[],
-//     videos: File[],
-//     existingImages: string[],
-//     existingVideos: string[],
-//     youtubeLinks: string[]
-//   ) => Promise<void>;
-// }
-
-// export default function CarForm({ initialData, onSubmit }: CarFormProps) {
-//   const [images, setImages] = useState<File[]>([]);
-//   const [videos, setVideos] = useState<File[]>([]);
-//   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
-//   const [videoPreviews, setVideoPreviews] = useState<string[]>([]);
-//   const [existingImages, setExistingImages] = useState<string[]>(initialData?.imageKeys || []);
-//   const [existingVideos, setExistingVideos] = useState<string[]>(initialData?.videoKeys || []);
-//   const [youtubeLinks, setYoutubeLinks] = useState<string[]>(initialData?.youtubeLinks || []);
+//   const [existingVideos, setExistingVideos] = useState<string[]>(
+//     initialData?.videoKeys || []
+//   );
+//   const [youtubeLinks, setYoutubeLinks] = useState<string[]>(
+//     initialData?.youtubeLinks || []
+//   );
 //   const [isSubmitting, setIsSubmitting] = useState(false);
 
 //   const {
@@ -508,25 +44,25 @@
 //     watch,
 //   } = useForm<CreateCarRequest>({
 //     defaultValues: {
-//       title: initialData?.title || '',
-//       make: initialData?.make || '',
-//       description: initialData?.description || '',
+//       title: initialData?.title || "",
+//       make: initialData?.make || "",
+//       description: initialData?.description || "",
 //       price: initialData?.price || 0,
 //       factoryOptions: initialData?.factoryOptions || [],
 //       highlights: initialData?.highlights || [],
 //       keyFeatures: initialData?.keyFeatures || [
-//         { label: 'Exterior Colour', value: '' },
-//         { label: 'Interior', value: '' },
-//         { label: 'Suspension', value: '' },
-//         { label: 'Wheels', value: '' },
+//         { label: "Exterior Colour", value: "" },
+//         { label: "Interior", value: "" },
+//         { label: "Suspension", value: "" },
+//         { label: "Wheels", value: "" },
 //       ],
 //       specifications: initialData?.specifications || [
-//         { label: 'Make/Model', value: '' },
-//         { label: 'Mileage', value: '' },
-//         { label: 'Engine', value: '' },
-//         { label: 'Transmission', value: '' },
+//         { label: "Make/Model", value: "" },
+//         { label: "Mileage", value: "" },
+//         { label: "Engine", value: "" },
+//         { label: "Transmission", value: "" },
 //       ],
-//       status: initialData?.status || 'unsold',
+//       status: initialData?.status || "unsold",
 //       youtubeLinks: initialData?.youtubeLinks || [],
 //     },
 //   });
@@ -535,44 +71,44 @@
 //     fields: factoryOptionsFields,
 //     append: appendFactoryOption,
 //     remove: removeFactoryOption,
-//   } = useFieldArray({ control, name: 'factoryOptions' });
+//   } = useFieldArray({ control, name: "factoryOptions" });
 
 //   const {
 //     fields: highlightsFields,
 //     append: appendHighlight,
 //     remove: removeHighlight,
-//   } = useFieldArray({ control, name: 'highlights' });
+//   } = useFieldArray({ control, name: "highlights" });
 
 //   const {
 //     fields: keyFeaturesFields,
 //     append: appendKeyFeature,
 //     remove: removeKeyFeature,
-//   } = useFieldArray({ control, name: 'keyFeatures' });
+//   } = useFieldArray({ control, name: "keyFeatures" });
 
 //   const {
 //     fields: specificationsFields,
 //     append: appendSpecification,
 //     remove: removeSpecification,
-//   } = useFieldArray({ control, name: 'specifications' });
+//   } = useFieldArray({ control, name: "specifications" });
 
 //   const {
 //     fields: youtubeLinksFields,
 //     append: appendYoutubeLink,
 //     remove: removeYoutubeLink,
-//   } = useFieldArray({ control, name: 'youtubeLinks' });
+//   } = useFieldArray({ control, name: "youtubeLinks" });
 
 //   useEffect(() => {
 //     if (initialData?.images) {
 //       setImagePreviews(initialData.images);
-//       setExistingImages(initialData.imageKeys);
+//       setExistingImages(initialData.imageKeys || []);
 //     }
 //     if (initialData?.videos) {
 //       setVideoPreviews(initialData.videos);
-//       setExistingVideos(initialData.videoKeys);
+//       setExistingVideos(initialData.videoKeys || []);
 //     }
 //     if (initialData?.youtubeLinks) {
 //       setYoutubeLinks(initialData.youtubeLinks);
-//       setValue('youtubeLinks', initialData.youtubeLinks);
+//       setValue("youtubeLinks", initialData.youtubeLinks);
 //     }
 //   }, [initialData, setValue]);
 
@@ -591,29 +127,27 @@
 //   };
 
 //   const removeImage = (index: number) => {
+//     setImagePreviews((prev) => prev.filter((_, i) => i !== index));
 //     if (index < existingImages.length) {
-//       const newExistingImages = existingImages.filter((_, i) => i !== index);
-//       setExistingImages(newExistingImages);
-//       setImagePreviews((prev) => prev.filter((_, i) => i !== index));
+//       // Remove from existing images
+//       setExistingImages((prev) => prev.filter((_, i) => i !== index));
 //     } else {
-//       const newImages = images.filter((_, i) => i !== index - existingImages.length);
-//       setImages(newImages);
-//       const newPreviews = imagePreviews.filter((_, i) => i !== index);
-//       setImagePreviews(newPreviews);
+//       // Remove from new images
+//       const newImageIndex = index - existingImages.length;
+//       setImages((prev) => prev.filter((_, i) => i !== newImageIndex));
 //       URL.revokeObjectURL(imagePreviews[index]);
 //     }
 //   };
 
 //   const removeVideo = (index: number) => {
+//     setVideoPreviews((prev) => prev.filter((_, i) => i !== index));
 //     if (index < existingVideos.length) {
-//       const newExistingVideos = existingVideos.filter((_, i) => i !== index);
-//       setExistingVideos(newExistingVideos);
-//       setVideoPreviews((prev) => prev.filter((_, i) => i !== index));
+//       // Remove from existing videos
+//       setExistingVideos((prev) => prev.filter((_, i) => i !== index));
 //     } else {
-//       const newVideos = videos.filter((_, i) => i !== index - existingVideos.length);
-//       setVideos(newVideos);
-//       const newPreviews = videoPreviews.filter((_, i) => i !== index);
-//       setVideoPreviews(newPreviews);
+//       // Remove from new videos
+//       const newVideoIndex = index - existingVideos.length;
+//       setVideos((prev) => prev.filter((_, i) => i !== newVideoIndex));
 //       URL.revokeObjectURL(videoPreviews[index]);
 //     }
 //   };
@@ -621,18 +155,27 @@
 //   const handleFormSubmit = async (data: CreateCarRequest) => {
 //     setIsSubmitting(true);
 //     try {
-//       const validYoutubeLinks = youtubeLinks.filter(link => link.trim() !== '' && /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/.test(link));
+//       const validYoutubeLinks = youtubeLinks.filter(
+//         (link) =>
+//           link.trim() !== "" &&
+//           /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/.test(link)
+//       );
 //       await onSubmit(
 //         {
 //           ...data,
-//           youtubeLinks: validYoutubeLinks.length > 0 ? validYoutubeLinks : undefined,
-//         },
+//           imageKeys: existingImages, // Send current existingImages
+//           videoKeys: existingVideos, // Send current existingVideos
+//           youtubeLinks:
+//             validYoutubeLinks.length > 0 ? validYoutubeLinks : undefined,
+//         } as UpdateCarRequest,
 //         images,
 //         videos,
 //         existingImages,
 //         existingVideos,
 //         validYoutubeLinks
 //       );
+//     } catch (error) {
+//       console.error("Form submission error:", error);
 //     } finally {
 //       setIsSubmitting(false);
 //     }
@@ -642,14 +185,14 @@
 //     toolbar: [
 //       [{ header: [1, 2, 3, 4, 5, 6, false] }],
 //       [{ size: [] }],
-//       ['bold', 'italic', 'underline', 'strike'],
+//       ["bold", "italic", "underline", "strike"],
 //       [{ color: [] }, { background: [] }],
-//       [{ script: 'sub' }, { script: 'super' }],
-//       [{ list: 'ordered' }, { list: 'bullet' }],
-//       [{ indent: '-1' }, { indent: '+1' }],
+//       [{ script: "sub" }, { script: "super" }],
+//       [{ list: "ordered" }, { list: "bullet" }],
+//       [{ indent: "-1" }, { indent: "+1" }],
 //       [{ align: [] }],
-//       ['blockquote', 'code-block'],
-//       ['clean'],
+//       ["blockquote", "code-block"],
+//       ["clean"],
 //     ],
 //   };
 
@@ -658,30 +201,38 @@
 //       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 //         <Input
 //           label="Title"
-//           {...register('title', { required: 'Title is required', setValueAs: (v) => v.trim() })}
+//           {...register("title", {
+//             required: "Title is required",
+//             setValueAs: (v) => v.trim(),
+//           })}
 //           error={errors.title?.message}
 //         />
 //         <Input
 //           label="Make"
-//           {...register('make', { required: 'Make is required', setValueAs: (v) => v.trim() })}
+//           {...register("make", {
+//             required: "Make is required",
+//             setValueAs: (v) => v.trim(),
+//           })}
 //           error={errors.make?.message}
 //         />
 //         <Input
 //           label="Price"
 //           type="number"
-//           {...register('price', {
-//             required: 'Price is required',
-//             min: { value: 0, message: 'Price must be positive' },
+//           {...register("price", {
+//             required: "Price is required",
+//             min: { value: 0, message: "Price must be positive" },
 //           })}
 //           error={errors.price?.message}
 //         />
 //         <div className="space-y-1">
-//           <label className="block text-sm font-medium text-gray-700">Status</label>
+//           <label className="block text-sm font-medium text-gray-700">
+//             Status
+//           </label>
 //           <select
-//             {...register('status')}
+//             {...register("status")}
 //             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
 //           >
-//             <option value="unsold">Unsold</option>
+//             <option value="unsold">Available</option>
 //             <option value="deposit">Deposit Taken</option>
 //             <option value="sold">Sold</option>
 //           </select>
@@ -689,27 +240,36 @@
 //       </div>
 
 //       <div className="space-y-1">
-//         <label className="block text-sm font-medium text-gray-700">Description</label>
+//         <label className="block text-sm font-medium text-gray-700">
+//           Description
+//         </label>
 //         <ReactQuill
 //           theme="snow"
-//           value={watch('description')}
-//           onChange={(value) => setValue('description', value, { shouldValidate: true })}
+//           value={watch("description")}
+//           onChange={(value) =>
+//             setValue("description", value, { shouldValidate: true })
+//           }
 //           modules={quillModules}
 //           className="bg-white rounded-lg"
 //         />
 //         {errors.description && (
-//           <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
+//           <p className="text-red-500 text-sm mt-1">
+//             {errors.description.message}
+//           </p>
 //         )}
 //       </div>
 
 //       <div className="space-y-4">
-//         <label className="block text-sm font-medium text-gray-700">Images</label>
+//         <label className="block text-sm font-medium text-gray-700">
+//           Images
+//         </label>
 //         <div className="flex items-center justify-center w-full">
-//           <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+//           <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
 //             <div className="flex flex-col items-center justify-center pt-5 pb-6">
 //               <Upload className="w-8 h-8 mb-4 text-gray-500" />
 //               <p className="mb-2 text-sm text-gray-500">
-//                 <span className="font-semibold">Click to upload</span> car images
+//                 <span className="font-semibold">Click to upload</span> car
+//                 images
 //               </p>
 //               <p className="text-xs text-gray-500">PNG, JPG or WEBP</p>
 //             </div>
@@ -746,15 +306,20 @@
 //       </div>
 
 //       <div className="space-y-4">
-//         <label className="block text-sm font-medium text-gray-700">Videos</label>
+//         <label className="block text-sm font-medium text-gray-700">
+//           Videos
+//         </label>
 //         <div className="flex items-center justify-center w-full">
 //           <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
 //             <div className="flex flex-col items-center justify-center pt-5 pb-6">
 //               <Upload className="w-8 h-8 mb-4 text-gray-500" />
 //               <p className="mb-2 text-sm text-gray-500">
-//                 <span className="font-semibold">Click to upload</span> car videos
+//                 <span className="font-semibold">Click to upload</span> car
+//                 videos
 //               </p>
-//               <p className="text-xs text-gray-500">MP4, AVI, MOV, or other video formats</p>
+//               <p className="text-xs text-gray-500">
+//                 MP4, AVI, MOV, or other video formats
+//               </p>
 //             </div>
 //             <input
 //               type="file"
@@ -790,8 +355,15 @@
 
 //       <div className="space-y-4">
 //         <div className="flex items-center justify-between">
-//           <label className="block text-sm font-medium text-gray-700">YouTube Links</label>
-//           <Button type="button" variant="secondary" size="sm" onClick={() => appendYoutubeLink('')}>
+//           <label className="block text-sm font-medium text-gray-700">
+//             YouTube Links
+//           </label>
+//           <Button
+//             type="button"
+//             variant="secondary"
+//             size="sm"
+//             onClick={() => appendYoutubeLink("")}
+//           >
 //             Add YouTube Link
 //           </Button>
 //         </div>
@@ -801,7 +373,7 @@
 //               {...register(`youtubeLinks.${index}` as const, {
 //                 pattern: {
 //                   value: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/,
-//                   message: 'Please enter a valid YouTube URL',
+//                   message: "Please enter a valid YouTube URL",
 //                 },
 //               })}
 //               placeholder="YouTube video URL"
@@ -812,31 +384,54 @@
 //                 setYoutubeLinks(newLinks);
 //               }}
 //             />
-//             <Button type="button" variant="danger" size="sm" onClick={() => {
-//               removeYoutubeLink(index);
-//               const newLinks = youtubeLinks.filter((_, i) => i !== index);
-//               setYoutubeLinks(newLinks);
-//             }}>
+//             <Button
+//               type="button"
+//               variant="danger"
+//               size="sm"
+//               onClick={() => {
+//                 removeYoutubeLink(index);
+//                 const newLinks = youtubeLinks.filter((_, i) => i !== index);
+//                 setYoutubeLinks(newLinks);
+//               }}
+//             >
 //               <Minus className="h-4 w-4" />
 //             </Button>
 //           </div>
 //         ))}
 //         {errors.youtubeLinks && (
-//           <p className="text-red-500 text-sm mt-1">{errors.youtubeLinks.message}</p>
+//           <p className="text-red-500 text-sm mt-1">
+//             {errors.youtubeLinks.message}
+//           </p>
 //         )}
 //       </div>
 
 //       <div className="space-y-4">
 //         <div className="flex items-center justify-between">
-//           <label className="block text-sm font-medium text-gray-700">Factory Options</label>
-//           <Button type="button" variant="secondary" size="sm" onClick={() => appendFactoryOption('')}>
+//           <label className="block text-sm font-medium text-gray-700">
+//             Factory Options
+//           </label>
+//           <Button
+//             type="button"
+//             variant="secondary"
+//             size="sm"
+//             onClick={() => appendFactoryOption("")}
+//           >
 //             Add Option
 //           </Button>
 //         </div>
 //         {factoryOptionsFields.map((field, index) => (
 //           <div key={field.id} className="flex space-x-2">
-//             <Input {...register(`factoryOptions.${index}` as const)} placeholder="Factory option" className="flex-1" />
-//             <Button type="button" variant="danger" size="sm" onClick={() => removeFactoryOption(index)}>
+//             <Input
+//               {...register(`factoryOptions.${index}` as const)}
+//               placeholder="Factory option"
+//               className="flex-1"
+//             />
+//             <Button
+//               type="button"
+//               variant="danger"
+//               size="sm"
+//               onClick={() => removeFactoryOption(index)}
+//             >
 //               <Minus className="h-4 w-4" />
 //             </Button>
 //           </div>
@@ -845,15 +440,31 @@
 
 //       <div className="space-y-4">
 //         <div className="flex items-center justify-between">
-//           <label className="block text-sm font-medium text-gray-700">Highlights</label>
-//           <Button type="button" variant="secondary" size="sm" onClick={() => appendHighlight('')}>
+//           <label className="block text-sm font-medium text-gray-700">
+//             Highlights
+//           </label>
+//           <Button
+//             type="button"
+//             variant="secondary"
+//             size="sm"
+//             onClick={() => appendHighlight("")}
+//           >
 //             Add Highlight
 //           </Button>
 //         </div>
 //         {highlightsFields.map((field, index) => (
 //           <div key={field.id} className="flex space-x-2">
-//             <Input {...register(`highlights.${index}` as const)} placeholder="Highlight" className="flex-1" />
-//             <Button type="button" variant="danger" size="sm" onClick={() => removeHighlight(index)}>
+//             <Input
+//               {...register(`highlights.${index}` as const)}
+//               placeholder="Highlight"
+//               className="flex-1"
+//             />
+//             <Button
+//               type="button"
+//               variant="danger"
+//               size="sm"
+//               onClick={() => removeHighlight(index)}
+//             >
 //               <Minus className="h-4 w-4" />
 //             </Button>
 //           </div>
@@ -862,16 +473,36 @@
 
 //       <div className="space-y-4">
 //         <div className="flex items-center justify-between">
-//           <label className="block text-sm font-medium text-gray-700">Key Features</label>
-//           <Button type="button" variant="secondary" size="sm" onClick={() => appendKeyFeature({ label: '', value: '' })}>
+//           <label className="block text-sm font-medium text-gray-700">
+//             Key Features
+//           </label>
+//           <Button
+//             type="button"
+//             variant="secondary"
+//             size="sm"
+//             onClick={() => appendKeyFeature({ label: "", value: "" })}
+//           >
 //             Add Feature
 //           </Button>
 //         </div>
 //         {keyFeaturesFields.map((field, index) => (
 //           <div key={field.id} className="flex space-x-2">
-//             <Input {...register(`keyFeatures.${index}.label` as const)} placeholder="Feature name" className="flex-1" />
-//             <Input {...register(`keyFeatures.${index}.value` as const)} placeholder="Feature value" className="flex-1" />
-//             <Button type="button" variant="danger" size="sm" onClick={() => removeKeyFeature(index)}>
+//             <Input
+//               {...register(`keyFeatures.${index}.label` as const)}
+//               placeholder="Feature name"
+//               className="flex-1"
+//             />
+//             <Input
+//               {...register(`keyFeatures.${index}.value` as const)}
+//               placeholder="Feature value"
+//               className="flex-1"
+//             />
+//             <Button
+//               type="button"
+//               variant="danger"
+//               size="sm"
+//               onClick={() => removeKeyFeature(index)}
+//             >
 //               <Minus className="h-4 w-4" />
 //             </Button>
 //           </div>
@@ -880,16 +511,36 @@
 
 //       <div className="space-y-4">
 //         <div className="flex items-center justify-between">
-//           <label className="block text-sm font-medium text-gray-700">Specifications</label>
-//           <Button type="button" variant="secondary" size="sm" onClick={() => appendSpecification({ label: '', value: '' })}>
+//           <label className="block text-sm font-medium text-gray-700">
+//             Specifications
+//           </label>
+//           <Button
+//             type="button"
+//             variant="secondary"
+//             size="sm"
+//             onClick={() => appendSpecification({ label: "", value: "" })}
+//           >
 //             Add Specification
 //           </Button>
 //         </div>
 //         {specificationsFields.map((field, index) => (
 //           <div key={field.id} className="flex space-x-2">
-//             <Input {...register(`specifications.${index}.label` as const)} placeholder="Specification name" className="flex-1" />
-//             <Input {...register(`specifications.${index}.value` as const)} placeholder="Specification value" className="flex-1" />
-//             <Button type="button" variant="danger" size="sm" onClick={() => removeSpecification(index)}>
+//             <Input
+//               {...register(`specifications.${index}.label` as const)}
+//               placeholder="Specification name"
+//               className="flex-1"
+//             />
+//             <Input
+//               {...register(`specifications.${index}.value` as const)}
+//               placeholder="Specification value"
+//               className="flex-1"
+//             />
+//             <Button
+//               type="button"
+//               variant="danger"
+//               size="sm"
+//               onClick={() => removeSpecification(index)}
+//             >
 //               <Minus className="h-4 w-4" />
 //             </Button>
 //           </div>
@@ -898,20 +549,25 @@
 
 //       <div className="flex justify-end space-x-4">
 //         <Button type="submit" disabled={isSubmitting} size="lg">
-//           {isSubmitting ? 'Saving...' : initialData ? 'Update Car' : 'Create Car'}
+//           {isSubmitting
+//             ? "Saving..."
+//             : initialData
+//             ? "Update Car"
+//             : "Create Car"}
 //         </Button>
 //       </div>
 //     </form>
 //   );
 // }
-import React, { useState, useEffect } from 'react';
-import { useForm, useFieldArray } from 'react-hook-form';
-import { Minus, Upload, X } from 'lucide-react';
-import { CreateCarRequest, UpdateCarRequest, Car } from '../../types/car';
-import Input from '../UI/Input';
-import Button from '../UI/Button';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import React, { useState, useEffect, useRef } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
+import { Minus, Upload, X } from "lucide-react";
+import { CreateCarRequest, UpdateCarRequest, Car } from "../../types/car";
+import Input from "../UI/Input";
+import Button from "../UI/Button";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
+import { toast } from "react-hot-toast";
 
 interface CarFormProps {
   initialData?: Car;
@@ -925,14 +581,98 @@ interface CarFormProps {
   ) => Promise<void>;
 }
 
+/* ----------------- Simple IndexedDB helper ----------------- */
+/* DB name: 'carDrafts', store: 'files' */
+const DB_NAME = "carDrafts";
+const STORE_NAME = "files";
+const DB_VERSION = 1;
+
+function openDB(): Promise<IDBDatabase> {
+  return new Promise((resolve, reject) => {
+    const req = indexedDB.open(DB_NAME, DB_VERSION);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        const store = db.createObjectStore(STORE_NAME, { keyPath: "id" });
+        store.createIndex("draftKey", "draftKey", { unique: false });
+      }
+    };
+    req.onsuccess = () => resolve(req.result);
+    req.onerror = () => reject(req.error);
+  });
+}
+
+async function idbPut(item: any) {
+  const db = await openDB();
+  return new Promise<void>((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    const store = tx.objectStore(STORE_NAME);
+    const r = store.put(item);
+    r.onsuccess = () => resolve();
+    r.onerror = () => reject(r.error);
+  });
+}
+
+async function idbGetById(id: string) {
+  const db = await openDB();
+  return new Promise<any>((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readonly");
+    const store = tx.objectStore(STORE_NAME);
+    const r = store.get(id);
+    r.onsuccess = () => resolve(r.result);
+    r.onerror = () => reject(r.error);
+  });
+}
+
+async function idbDeleteById(id: string) {
+  const db = await openDB();
+  return new Promise<void>((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readwrite");
+    const store = tx.objectStore(STORE_NAME);
+    const r = store.delete(id);
+    r.onsuccess = () => resolve();
+    r.onerror = () => reject(r.error);
+  });
+}
+
+async function idbGetByDraftKey(draftKey: string) {
+  const db = await openDB();
+  return new Promise<any[]>((resolve, reject) => {
+    const tx = db.transaction(STORE_NAME, "readonly");
+    const store = tx.objectStore(STORE_NAME);
+    const idx = store.index("draftKey");
+    const r = idx.getAll(draftKey);
+    r.onsuccess = () => resolve(r.result || []);
+    r.onerror = () => reject(r.error);
+  });
+}
+
+async function idbDeleteByDraftKey(draftKey: string) {
+  const items = await idbGetByDraftKey(draftKey);
+  await Promise.all(items.map((it) => idbDeleteById(it.id)));
+}
+
+/* ----------------- Helper ----------------- */
+const uid = () =>
+  Date.now().toString(36) + Math.random().toString(36).slice(2, 9);
+
+/* ----------------- CarForm component ----------------- */
 export default function CarForm({ initialData, onSubmit }: CarFormProps) {
   const [images, setImages] = useState<File[]>([]);
   const [videos, setVideos] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [videoPreviews, setVideoPreviews] = useState<string[]>([]);
-  const [existingImages, setExistingImages] = useState<string[]>(initialData?.imageKeys || []);
-  const [existingVideos, setExistingVideos] = useState<string[]>(initialData?.videoKeys || []);
-  const [youtubeLinks, setYoutubeLinks] = useState<string[]>(initialData?.youtubeLinks || []);
+  const [imageFileIds, setImageFileIds] = useState<string[]>([]); // ids in IDB
+  const [videoFileIds, setVideoFileIds] = useState<string[]>([]);
+  const [existingImages, setExistingImages] = useState<string[]>(
+    initialData?.imageKeys || []
+  );
+  const [existingVideos, setExistingVideos] = useState<string[]>(
+    initialData?.videoKeys || []
+  );
+  const [youtubeLinks, setYoutubeLinks] = useState<string[]>(
+    initialData?.youtubeLinks || []
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -942,128 +682,401 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
     formState: { errors },
     setValue,
     watch,
+    getValues,
   } = useForm<CreateCarRequest>({
     defaultValues: {
-      title: initialData?.title || '',
-      make: initialData?.make || '',
-      description: initialData?.description || '',
+      title: initialData?.title || "",
+      make: initialData?.make || "",
+      description: initialData?.description || "",
       price: initialData?.price || 0,
       factoryOptions: initialData?.factoryOptions || [],
       highlights: initialData?.highlights || [],
       keyFeatures: initialData?.keyFeatures || [
-        { label: 'Exterior Colour', value: '' },
-        { label: 'Interior', value: '' },
-        { label: 'Suspension', value: '' },
-        { label: 'Wheels', value: '' },
+        { label: "Exterior Colour", value: "" },
+        { label: "Interior", value: "" },
+        { label: "Suspension", value: "" },
+        { label: "Wheels", value: "" },
       ],
       specifications: initialData?.specifications || [
-        { label: 'Make/Model', value: '' },
-        { label: 'Mileage', value: '' },
-        { label: 'Engine', value: '' },
-        { label: 'Transmission', value: '' },
+        { label: "Make/Model", value: "" },
+        { label: "Mileage", value: "" },
+        { label: "Engine", value: "" },
+        { label: "Transmission", value: "" },
       ],
-      status: initialData?.status || 'unsold',
+      status: initialData?.status || "unsold",
       youtubeLinks: initialData?.youtubeLinks || [],
     },
   });
 
+  /* field arrays */
   const {
     fields: factoryOptionsFields,
     append: appendFactoryOption,
     remove: removeFactoryOption,
-  } = useFieldArray({ control, name: 'factoryOptions' });
+  } = useFieldArray({ control, name: "factoryOptions" });
 
   const {
     fields: highlightsFields,
     append: appendHighlight,
     remove: removeHighlight,
-  } = useFieldArray({ control, name: 'highlights' });
+  } = useFieldArray({ control, name: "highlights" });
 
   const {
     fields: keyFeaturesFields,
     append: appendKeyFeature,
     remove: removeKeyFeature,
-  } = useFieldArray({ control, name: 'keyFeatures' });
+  } = useFieldArray({ control, name: "keyFeatures" });
 
   const {
     fields: specificationsFields,
     append: appendSpecification,
     remove: removeSpecification,
-  } = useFieldArray({ control, name: 'specifications' });
+  } = useFieldArray({ control, name: "specifications" });
 
   const {
     fields: youtubeLinksFields,
     append: appendYoutubeLink,
     remove: removeYoutubeLink,
-  } = useFieldArray({ control, name: 'youtubeLinks' });
+  } = useFieldArray({ control, name: "youtubeLinks" });
 
+  /* draft keys */
+  const formId = initialData?._id || "new";
+  const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+  const draftKey = `carFormDraft:${formId}:${today}`;
+  const mountedRef = useRef(false);
+
+  /* Clean up old drafts (metadata + files) older than 24 hours */
   useEffect(() => {
-    if (initialData?.images) {
-      setImagePreviews(initialData.images);
-      setExistingImages(initialData.imageKeys || []);
-    }
-    if (initialData?.videos) {
-      setVideoPreviews(initialData.videos);
-      setExistingVideos(initialData.videoKeys || []);
-    }
-    if (initialData?.youtubeLinks) {
-      setYoutubeLinks(initialData.youtubeLinks);
-      setValue('youtubeLinks', initialData.youtubeLinks);
-    }
-  }, [initialData, setValue]);
+    const cleanupOldDrafts = async () => {
+      try {
+        const now = Date.now();
+        Object.keys(localStorage)
+          .filter((k) => k.startsWith("carFormDraft:"))
+          .forEach(async (k) => {
+            try {
+              const raw = localStorage.getItem(k);
+              if (!raw) return localStorage.removeItem(k);
+              const parsed = JSON.parse(raw);
+              if (
+                !parsed?.timestamp ||
+                now - parsed.timestamp > 24 * 60 * 60 * 1000
+              ) {
+                // remove associated IDB files too
+                await idbDeleteByDraftKey(k);
+                localStorage.removeItem(k);
+              }
+            } catch {
+              localStorage.removeItem(k);
+            }
+          });
+      } catch (e) {
+        // ignore
+      }
+    };
+    cleanupOldDrafts();
+  }, []);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  /* Load today's draft (metadata + files) */
+  useEffect(() => {
+    let cancelled = false;
+    const loadDraft = async () => {
+      try {
+        const raw = localStorage.getItem(draftKey);
+        if (!raw) return;
+        const draft = JSON.parse(raw);
+        if (!draft) return;
+
+        if (cancelled) return;
+        // load form values
+        if (draft.values) {
+          Object.entries(draft.values).forEach(([k, v]) => {
+            try {
+              setValue(k as any, v);
+            } catch {}
+          });
+        }
+        // existing server images/videos
+        if (draft.existingImages) {
+          setExistingImages(draft.existingImages);
+          setImagePreviews(draft.existingImages);
+        }
+        if (draft.existingVideos) {
+          setExistingVideos(draft.existingVideos);
+          setVideoPreviews(draft.existingVideos);
+        }
+
+        // load saved files from IDB (if any)
+        const imgIds: string[] = draft.imageFileIds || [];
+        const vidIds: string[] = draft.videoFileIds || [];
+
+        const loadedImgs: File[] = [];
+        const imgPreviews: string[] = [];
+        for (const id of imgIds) {
+          try {
+            const rec = await idbGetById(id);
+            if (rec?.blob) {
+              const blob: Blob = rec.blob;
+              const file = new File([blob], rec.name || `image-${id}`, {
+                type: rec.mime || blob.type,
+              });
+              loadedImgs.push(file);
+              imgPreviews.push(URL.createObjectURL(blob));
+            }
+          } catch {}
+        }
+
+        const loadedVids: File[] = [];
+        const vidPreviews: string[] = [];
+        for (const id of vidIds) {
+          try {
+            const rec = await idbGetById(id);
+            if (rec?.blob) {
+              const blob: Blob = rec.blob;
+              const file = new File([blob], rec.name || `video-${id}`, {
+                type: rec.mime || blob.type,
+              });
+              loadedVids.push(file);
+              vidPreviews.push(URL.createObjectURL(blob));
+            }
+          } catch {}
+        }
+
+        if (!cancelled) {
+          if (loadedImgs.length > 0) {
+            setImages(loadedImgs);
+            setImageFileIds(imgIds);
+            setImagePreviews((prev) => [
+              ...(draft.existingImages || []),
+              ...imgPreviews,
+            ]);
+          }
+          if (loadedVids.length > 0) {
+            setVideos(loadedVids);
+            setVideoFileIds(vidIds);
+            setVideoPreviews((prev) => [
+              ...(draft.existingVideos || []),
+              ...vidPreviews,
+            ]);
+          }
+        }
+
+        // if (!cancelled)
+        //   toast("Restored draft including files (today)", { icon: "💾" });
+      } catch (err) {
+        // ignore load errors
+      }
+    };
+
+    loadDraft();
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialData, draftKey, setValue]);
+
+  /* Auto-save draft (debounced) */
+  const watched = watch();
+  useEffect(() => {
+    const id = window.setTimeout(() => saveDraft(false), 1500);
+    return () => clearTimeout(id);
+    // include file meta lengths so it saves their ids
+  }, [
+    watched,
+    existingImages,
+    existingVideos,
+    youtubeLinks,
+    imageFileIds,
+    videoFileIds,
+    images.length,
+    videos.length,
+  ]);
+
+  /* Save draft metadata (localStorage) */
+  const saveDraft = (notify = true) => {
+    try {
+      const values = getValues();
+      const draft = {
+        values,
+        existingImages,
+        existingVideos,
+        youtubeLinks,
+        imageFileIds,
+        videoFileIds,
+        timestamp: Date.now(),
+      };
+      localStorage.setItem(draftKey, JSON.stringify(draft));
+      if (notify) toast.success("Draft saved locally");
+    } catch (e) {
+      if (notify) toast.error("Could not save draft locally");
+    }
+  };
+
+  const clearDraft = async () => {
+    try {
+      localStorage.removeItem(draftKey);
+      await idbDeleteByDraftKey(draftKey);
+      // revoke object URLs
+      imagePreviews.forEach((u) => {
+        try {
+          URL.revokeObjectURL(u);
+        } catch {}
+      });
+      videoPreviews.forEach((u) => {
+        try {
+          URL.revokeObjectURL(u);
+        } catch {}
+      });
+      setImages([]);
+      setVideos([]);
+      setImagePreviews([]);
+      setVideoPreviews([]);
+      setImageFileIds([]);
+      setVideoFileIds([]);
+      toast.success("Draft cleared");
+    } catch {
+      toast.error("Could not clear draft");
+    }
+  };
+
+  /* When user selects images: save files to IDB and update lists */
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    setImages((prev) => [...prev, ...files]);
-    const newPreviews = files.map((file) => URL.createObjectURL(file));
+    if (files.length === 0) return;
+
+    const newFiles: File[] = [];
+    const newPreviews: string[] = [];
+    const newIds: string[] = [];
+
+    for (const file of files) {
+      const id = `${draftKey}:img:${uid()}`;
+      try {
+        // store blob + metadata
+        await idbPut({
+          id,
+          draftKey,
+          kind: "image",
+          name: file.name,
+          mime: file.type,
+          blob: await file
+            .arrayBuffer()
+            .then((buf) => new Blob([buf], { type: file.type })),
+        });
+        newFiles.push(file);
+        const url = URL.createObjectURL(file);
+        newPreviews.push(url);
+        newIds.push(id);
+      } catch (err) {
+        console.error("Failed to save image to IndexedDB", err);
+      }
+    }
+
+    setImages((prev) => [...prev, ...newFiles]);
     setImagePreviews((prev) => [...prev, ...newPreviews]);
+    setImageFileIds((prev) => [...prev, ...newIds]);
+    // persist metadata immediately
+    saveDraft(false);
   };
 
-  const handleVideoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleVideoChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
-    setVideos((prev) => [...prev, ...files]);
-    const newPreviews = files.map((file) => URL.createObjectURL(file));
+    if (files.length === 0) return;
+
+    const newFiles: File[] = [];
+    const newPreviews: string[] = [];
+    const newIds: string[] = [];
+
+    for (const file of files) {
+      const id = `${draftKey}:vid:${uid()}`;
+      try {
+        await idbPut({
+          id,
+          draftKey,
+          kind: "video",
+          name: file.name,
+          mime: file.type,
+          blob: await file
+            .arrayBuffer()
+            .then((buf) => new Blob([buf], { type: file.type })),
+        });
+        newFiles.push(file);
+        const url = URL.createObjectURL(file);
+        newPreviews.push(url);
+        newIds.push(id);
+      } catch (err) {
+        console.error("Failed to save video to IndexedDB", err);
+      }
+    }
+
+    setVideos((prev) => [...prev, ...newFiles]);
     setVideoPreviews((prev) => [...prev, ...newPreviews]);
+    setVideoFileIds((prev) => [...prev, ...newIds]);
+    saveDraft(false);
   };
 
+  /* Remove image by index (taking into account existingImages first) */
   const removeImage = (index: number) => {
-    setImagePreviews((prev) => prev.filter((_, i) => i !== index));
+    // If index refers to existingImages (server URLs)
     if (index < existingImages.length) {
-      // Remove from existing images
       setExistingImages((prev) => prev.filter((_, i) => i !== index));
+      setImagePreviews((prev) => prev.filter((_, i) => i !== index));
     } else {
-      // Remove from new images
-      const newImageIndex = index - existingImages.length;
-      setImages((prev) => prev.filter((_, i) => i !== newImageIndex));
-      URL.revokeObjectURL(imagePreviews[index]);
+      const newIndex = index - existingImages.length;
+      // remove from images[] and delete id from IDB using imageFileIds
+      const idToDelete = imageFileIds[newIndex];
+      if (idToDelete) {
+        idbDeleteById(idToDelete).catch(() => {});
+      }
+      setImages((prev) => prev.filter((_, i) => i !== newIndex));
+      setImageFileIds((prev) => prev.filter((_, i) => i !== newIndex));
+      // release object URL
+      const previewIdx = index;
+      try {
+        URL.revokeObjectURL(imagePreviews[previewIdx]);
+      } catch {}
+      setImagePreviews((prev) => prev.filter((_, i) => i !== previewIdx));
     }
+    saveDraft(false);
   };
 
   const removeVideo = (index: number) => {
-    setVideoPreviews((prev) => prev.filter((_, i) => i !== index));
     if (index < existingVideos.length) {
-      // Remove from existing videos
       setExistingVideos((prev) => prev.filter((_, i) => i !== index));
+      setVideoPreviews((prev) => prev.filter((_, i) => i !== index));
     } else {
-      // Remove from new videos
-      const newVideoIndex = index - existingVideos.length;
-      setVideos((prev) => prev.filter((_, i) => i !== newVideoIndex));
-      URL.revokeObjectURL(videoPreviews[index]);
+      const newIndex = index - existingVideos.length;
+      const idToDelete = videoFileIds[newIndex];
+      if (idToDelete) {
+        idbDeleteById(idToDelete).catch(() => {});
+      }
+      setVideos((prev) => prev.filter((_, i) => i !== newIndex));
+      setVideoFileIds((prev) => prev.filter((_, i) => i !== newIndex));
+      const previewIdx = index;
+      try {
+        URL.revokeObjectURL(videoPreviews[previewIdx]);
+      } catch {}
+      setVideoPreviews((prev) => prev.filter((_, i) => i !== previewIdx));
     }
+    saveDraft(false);
   };
 
+  /* Form submit */
   const handleFormSubmit = async (data: CreateCarRequest) => {
     setIsSubmitting(true);
     try {
       const validYoutubeLinks = youtubeLinks.filter(
-        (link) => link.trim() !== '' && /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/.test(link)
+        (link) =>
+          link.trim() !== "" &&
+          /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/.test(link)
       );
+
+      // IMPORTANT: when calling onSubmit we pass the File[] arrays reconstructed from state (these are real File objects).
       await onSubmit(
         {
           ...data,
-          imageKeys: existingImages, // Send current existingImages
-          videoKeys: existingVideos, // Send current existingVideos
-          youtubeLinks: validYoutubeLinks.length > 0 ? validYoutubeLinks : undefined,
+          imageKeys: existingImages.length > 0 ? existingImages : undefined,
+          videoKeys: existingVideos.length > 0 ? existingVideos : undefined,
+          youtubeLinks:
+            validYoutubeLinks.length > 0 ? validYoutubeLinks : undefined,
         } as UpdateCarRequest,
         images,
         videos,
@@ -1071,25 +1084,51 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
         existingVideos,
         validYoutubeLinks
       );
-    } catch (error) {
-      console.error('Form submission error:', error);
+
+      // clear draft on success (metadata + files)
+      try {
+        localStorage.removeItem(draftKey);
+        await idbDeleteByDraftKey(draftKey);
+      } catch {}
+    } catch (error: any) {
+      console.error("Form submission error:", error);
+      toast.error(error?.response?.data?.message || "Failed to save car");
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => {
+      // cleanup object URLs
+      imagePreviews.forEach((u) => {
+        try {
+          URL.revokeObjectURL(u);
+        } catch {}
+      });
+      videoPreviews.forEach((u) => {
+        try {
+          URL.revokeObjectURL(u);
+        } catch {}
+      });
+      mountedRef.current = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const quillModules = {
     toolbar: [
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
       [{ size: [] }],
-      ['bold', 'italic', 'underline', 'strike'],
+      ["bold", "italic", "underline", "strike"],
       [{ color: [] }, { background: [] }],
-      [{ script: 'sub' }, { script: 'super' }],
-      [{ list: 'ordered' }, { list: 'bullet' }],
-      [{ indent: '-1' }, { indent: '+1' }],
+      [{ script: "sub" }, { script: "super" }],
+      [{ list: "ordered" }, { list: "bullet" }],
+      [{ indent: "-1" }, { indent: "+1" }],
       [{ align: [] }],
-      ['blockquote', 'code-block'],
-      ['clean'],
+      ["blockquote", "code-block"],
+      ["clean"],
     ],
   };
 
@@ -1098,27 +1137,35 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Input
           label="Title"
-          {...register('title', { required: 'Title is required', setValueAs: (v) => v.trim() })}
+          {...register("title", {
+            required: "Title is required",
+            setValueAs: (v) => v.trim(),
+          })}
           error={errors.title?.message}
         />
         <Input
           label="Make"
-          {...register('make', { required: 'Make is required', setValueAs: (v) => v.trim() })}
+          {...register("make", {
+            required: "Make is required",
+            setValueAs: (v) => v.trim(),
+          })}
           error={errors.make?.message}
         />
         <Input
           label="Price"
           type="number"
-          {...register('price', {
-            required: 'Price is required',
-            min: { value: 0, message: 'Price must be positive' },
+          {...register("price", {
+            required: "Price is required",
+            min: { value: 0, message: "Price must be positive" },
           })}
           error={errors.price?.message}
         />
         <div className="space-y-1">
-          <label className="block text-sm font-medium text-gray-700">Status</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Status
+          </label>
           <select
-            {...register('status')}
+            {...register("status")}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
             <option value="unsold">Available</option>
@@ -1129,27 +1176,37 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
       </div>
 
       <div className="space-y-1">
-        <label className="block text-sm font-medium text-gray-700">Description</label>
+        <label className="block text-sm font-medium text-gray-700">
+          Description
+        </label>
         <ReactQuill
           theme="snow"
-          value={watch('description')}
-          onChange={(value) => setValue('description', value, { shouldValidate: true })}
+          value={watch("description")}
+          onChange={(value) =>
+            setValue("description", value, { shouldValidate: true })
+          }
           modules={quillModules}
           className="bg-white rounded-lg"
         />
         {errors.description && (
-          <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
+          <p className="text-red-500 text-sm mt-1">
+            {errors.description.message}
+          </p>
         )}
       </div>
 
+      {/* Images */}
       <div className="space-y-4">
-        <label className="block text-sm font-medium text-gray-700">Images</label>
+        <label className="block text-sm font-medium text-gray-700">
+          Images
+        </label>
         <div className="flex items-center justify-center w-full">
-          <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+          <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
               <Upload className="w-8 h-8 mb-4 text-gray-500" />
               <p className="mb-2 text-sm text-gray-500">
-                <span className="font-semibold">Click to upload</span> car images
+                <span className="font-semibold">Click to upload</span> car
+                images
               </p>
               <p className="text-xs text-gray-500">PNG, JPG or WEBP</p>
             </div>
@@ -1185,16 +1242,22 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
         )}
       </div>
 
+      {/* Videos */}
       <div className="space-y-4">
-        <label className="block text-sm font-medium text-gray-700">Videos</label>
+        <label className="block text-sm font-medium text-gray-700">
+          Videos
+        </label>
         <div className="flex items-center justify-center w-full">
           <label className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
               <Upload className="w-8 h-8 mb-4 text-gray-500" />
               <p className="mb-2 text-sm text-gray-500">
-                <span className="font-semibold">Click to upload</span> car videos
+                <span className="font-semibold">Click to upload</span> car
+                videos
               </p>
-              <p className="text-xs text-gray-500">MP4, AVI, MOV, or other video formats</p>
+              <p className="text-xs text-gray-500">
+                MP4, AVI, MOV, or other video formats
+              </p>
             </div>
             <input
               type="file"
@@ -1228,10 +1291,18 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
         )}
       </div>
 
+      {/* YouTube Links */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <label className="block text-sm font-medium text-gray-700">YouTube Links</label>
-          <Button type="button" variant="secondary" size="sm" onClick={() => appendYoutubeLink('')}>
+          <label className="block text-sm font-medium text-gray-700">
+            YouTube Links
+          </label>
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={() => appendYoutubeLink("")}
+          >
             Add YouTube Link
           </Button>
         </div>
@@ -1241,7 +1312,7 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
               {...register(`youtubeLinks.${index}` as const, {
                 pattern: {
                   value: /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.be)\/.+$/,
-                  message: 'Please enter a valid YouTube URL',
+                  message: "Please enter a valid YouTube URL",
                 },
               })}
               placeholder="YouTube video URL"
@@ -1267,21 +1338,40 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
           </div>
         ))}
         {errors.youtubeLinks && (
-          <p className="text-red-500 text-sm mt-1">{errors.youtubeLinks.message}</p>
+          <p className="text-red-500 text-sm mt-1">
+            {errors.youtubeLinks.message}
+          </p>
         )}
       </div>
 
+      {/* Factory Options, Highlights, Key Features, Specs */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <label className="block text-sm font-medium text-gray-700">Factory Options</label>
-          <Button type="button" variant="secondary" size="sm" onClick={() => appendFactoryOption('')}>
+          <label className="block text-sm font-medium text-gray-700">
+            Factory Options
+          </label>
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={() => appendFactoryOption("")}
+          >
             Add Option
           </Button>
         </div>
         {factoryOptionsFields.map((field, index) => (
           <div key={field.id} className="flex space-x-2">
-            <Input {...register(`factoryOptions.${index}` as const)} placeholder="Factory option" className="flex-1" />
-            <Button type="button" variant="danger" size="sm" onClick={() => removeFactoryOption(index)}>
+            <Input
+              {...register(`factoryOptions.${index}` as const)}
+              placeholder="Factory option"
+              className="flex-1"
+            />
+            <Button
+              type="button"
+              variant="danger"
+              size="sm"
+              onClick={() => removeFactoryOption(index)}
+            >
               <Minus className="h-4 w-4" />
             </Button>
           </div>
@@ -1290,15 +1380,31 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <label className="block text-sm font-medium text-gray-700">Highlights</label>
-          <Button type="button" variant="secondary" size="sm" onClick={() => appendHighlight('')}>
+          <label className="block text-sm font-medium text-gray-700">
+            Highlights
+          </label>
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={() => appendHighlight("")}
+          >
             Add Highlight
           </Button>
         </div>
         {highlightsFields.map((field, index) => (
           <div key={field.id} className="flex space-x-2">
-            <Input {...register(`highlights.${index}` as const)} placeholder="Highlight" className="flex-1" />
-            <Button type="button" variant="danger" size="sm" onClick={() => removeHighlight(index)}>
+            <Input
+              {...register(`highlights.${index}` as const)}
+              placeholder="Highlight"
+              className="flex-1"
+            />
+            <Button
+              type="button"
+              variant="danger"
+              size="sm"
+              onClick={() => removeHighlight(index)}
+            >
               <Minus className="h-4 w-4" />
             </Button>
           </div>
@@ -1307,12 +1413,14 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <label className="block text-sm font-medium text-gray-700">Key Features</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Key Features
+          </label>
           <Button
             type="button"
             variant="secondary"
             size="sm"
-            onClick={() => appendKeyFeature({ label: '', value: '' })}
+            onClick={() => appendKeyFeature({ label: "", value: "" })}
           >
             Add Feature
           </Button>
@@ -1329,7 +1437,12 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
               placeholder="Feature value"
               className="flex-1"
             />
-            <Button type="button" variant="danger" size="sm" onClick={() => removeKeyFeature(index)}>
+            <Button
+              type="button"
+              variant="danger"
+              size="sm"
+              onClick={() => removeKeyFeature(index)}
+            >
               <Minus className="h-4 w-4" />
             </Button>
           </div>
@@ -1338,12 +1451,14 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
 
       <div className="space-y-4">
         <div className="flex items-center justify-between">
-          <label className="block text-sm font-medium text-gray-700">Specifications</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Specifications
+          </label>
           <Button
             type="button"
             variant="secondary"
             size="sm"
-            onClick={() => appendSpecification({ label: '', value: '' })}
+            onClick={() => appendSpecification({ label: "", value: "" })}
           >
             Add Specification
           </Button>
@@ -1360,17 +1475,46 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
               placeholder="Specification value"
               className="flex-1"
             />
-            <Button type="button" variant="danger" size="sm" onClick={() => removeSpecification(index)}>
+            <Button
+              type="button"
+              variant="danger"
+              size="sm"
+              onClick={() => removeSpecification(index)}
+            >
               <Minus className="h-4 w-4" />
             </Button>
           </div>
         ))}
       </div>
 
-      <div className="flex justify-end space-x-4">
-        <Button type="submit" disabled={isSubmitting} size="lg">
-          {isSubmitting ? 'Saving...' : initialData ? 'Update Car' : 'Create Car'}
-        </Button>
+      {/* Draft controls + Submit */}
+      <div className="flex justify-between items-center">
+        <div className="flex gap-2">
+          <Button
+            type="button"
+            variant="secondary"
+            size="md"
+            onClick={() => saveDraft(true)}
+          >
+            Save Draft
+          </Button>
+          <Button type="button" variant="danger" size="md" onClick={clearDraft}>
+            Clear Draft
+          </Button>
+          <span className="text-sm text-gray-500 self-center">
+            Drafts auto-expire after 24 hours
+          </span>
+        </div>
+
+        <div className="flex justify-end space-x-4">
+          <Button type="submit" disabled={isSubmitting} size="lg">
+            {isSubmitting
+              ? "Saving..."
+              : initialData
+              ? "Update Car"
+              : "Create Car"}
+          </Button>
+        </div>
       </div>
     </form>
   );
