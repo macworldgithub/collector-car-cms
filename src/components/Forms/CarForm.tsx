@@ -938,6 +938,22 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
     }
   };
 
+  /* Initialize initialData images/videos */
+  useEffect(() => {
+    if (initialData?.images) {
+      setImagePreviews(initialData.images);
+      setExistingImages(initialData.imageKeys || []);
+    }
+    if (initialData?.videos) {
+      setVideoPreviews(initialData.videos);
+      setExistingVideos(initialData.videoKeys || []);
+    }
+    if (initialData?.youtubeLinks) {
+      setYoutubeLinks(initialData.youtubeLinks);
+      setValue("youtubeLinks", initialData.youtubeLinks);
+    }
+  }, [initialData, setValue]);
+
   /* When user selects images: save files to IDB and update lists */
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
@@ -1344,7 +1360,7 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
         )}
       </div>
 
-      {/* Factory Options, Highlights, Key Features, Specs */}
+      {/* Factory Options */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <label className="block text-sm font-medium text-gray-700">
@@ -1378,6 +1394,7 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
         ))}
       </div>
 
+      {/* Highlights */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <label className="block text-sm font-medium text-gray-700">
@@ -1411,6 +1428,7 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
         ))}
       </div>
 
+      {/* Key Features */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <label className="block text-sm font-medium text-gray-700">
@@ -1449,6 +1467,7 @@ export default function CarForm({ initialData, onSubmit }: CarFormProps) {
         ))}
       </div>
 
+      {/* Specifications */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <label className="block text-sm font-medium text-gray-700">
