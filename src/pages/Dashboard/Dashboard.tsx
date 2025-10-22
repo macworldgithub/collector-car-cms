@@ -28,7 +28,7 @@
 //   const handleMarkAsSold = async (id: string) => {
 //     try {
 //       await carsService.markAsSold(id);
-//       setCars(prev => prev.map(car => 
+//       setCars(prev => prev.map(car =>
 //         car._id === id ? { ...car, status: 'sold' } : car
 //       ));
 //       toast.success('Car marked as sold!');
@@ -39,7 +39,7 @@
 
 //   const handleDelete = async (id: string) => {
 //     if (!window.confirm('Are you sure you want to delete this car?')) return;
-    
+
 //     try {
 //       await carsService.deleteCar(id);
 //       setCars(prev => prev.filter(car => car._id !== id));
@@ -48,7 +48,7 @@
 //       toast.error('Failed to delete car');
 //     }
 //   };
-  
+
 //   const handleToggleSold = async (id: string) => {
 //     try {
 //       const updatedCar = await carsService.toggleSoldStatus(id);
@@ -198,7 +198,7 @@
 //   const handleMarkAsSold = async (id: string) => {
 //     try {
 //       await carsService.markAsSold(id);
-//       setCars(prev => prev.map(car => 
+//       setCars(prev => prev.map(car =>
 //         car._id === id ? { ...car, status: 'sold' } : car
 //       ));
 //       toast.success('Car marked as sold!');
@@ -209,7 +209,7 @@
 
 //   const handleDelete = async (id: string) => {
 //     if (!window.confirm('Are you sure you want to delete this car?')) return;
-    
+
 //     try {
 //       await carsService.deleteCar(id);
 //       setCars(prev => prev.filter(car => car._id !== id));
@@ -218,7 +218,7 @@
 //       toast.error('Failed to delete car');
 //     }
 //   };
-  
+
 //   const handleToggleSold = async (id: string) => {
 //     try {
 //       const updatedCar = await carsService.toggleSoldStatus(id);
@@ -265,7 +265,7 @@
 //   </Button>
 //   <Link to="/cars/create">
 //   <Button className="flex items-center">
-//     <Plus className="h-4 w-4 mr-2 hidden sm:inline" /> 
+//     <Plus className="h-4 w-4 mr-2 hidden sm:inline" />
 //     Add New Car
 //   </Button>
 // </Link>
@@ -354,36 +354,40 @@
 //     </div>
 //   );
 // }
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { Plus, Edit, Eye, Trash2, CheckCircle } from 'lucide-react';
-import { toast } from 'react-hot-toast';
-import { carsService } from '../../services/cars';
-import { Car } from '../../types/car';
-import Button from '../../components/UI/Button';
-import LoadingSpinner from '../../components/UI/LoadingSpinner';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Plus, Edit, Eye, Trash2, CheckCircle } from "lucide-react";
+import { toast } from "react-hot-toast";
+import { carsService } from "../../services/cars";
+import { Car } from "../../types/car";
+import Button from "../../components/UI/Button";
+import LoadingSpinner from "../../components/UI/LoadingSpinner";
 
 export default function Dashboard() {
   const [cars, setCars] = useState<Car[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<'all' | 'sold' | 'unsold' | 'deposit'>('all');
+  const [filter, setFilter] = useState<"all" | "sold" | "unsold" | "deposit">(
+    "all"
+  );
 
   const fetchCars = async () => {
     try {
       setLoading(true);
       let response;
-      if (filter === 'sold') {
+      if (filter === "sold") {
         response = await carsService.getSoldCars();
-      } else if (filter === 'unsold') {
+      } else if (filter === "unsold") {
         response = await carsService.getUnsoldCars();
-      } else if (filter === 'deposit') {
+      } else if (filter === "deposit") {
         response = await carsService.getDepositCars();
       } else {
         response = await carsService.getCars();
       }
-      setCars(Array.isArray(response.data) ? response.data : response.data?.data || []);
+      setCars(
+        Array.isArray(response.data) ? response.data : response.data?.data || []
+      );
     } catch (error: any) {
-      toast.error('Failed to fetch cars');
+      toast.error("Failed to fetch cars");
       setCars([]);
     } finally {
       setLoading(false);
@@ -393,27 +397,27 @@ export default function Dashboard() {
   const handleCycleStatus = async (id: string) => {
     try {
       const updatedCar = await carsService.cycleStatus(id);
-      setCars(prev =>
-        prev.map(car => (car._id === id ? updatedCar : car))
-      );
+      setCars((prev) => prev.map((car) => (car._id === id ? updatedCar : car)));
       // toast.success(`Car marked as ${updatedCar.status}!`);
       toast.success(
-  `Car marked as ${updatedCar.status === "unsold" ? "available" : updatedCar.status}!`
-);
+        `Car marked as ${
+          updatedCar.status === "unsold" ? "available" : updatedCar.status
+        }!`
+      );
     } catch (error: any) {
-      toast.error('Failed to update car status');
+      toast.error("Failed to update car status");
     }
   };
 
   const handleDelete = async (id: string) => {
-    if (!window.confirm('Are you sure you want to delete this car?')) return;
-    
+    if (!window.confirm("Are you sure you want to delete this car?")) return;
+
     try {
       await carsService.deleteCar(id);
-      setCars(prev => prev.filter(car => car._id !== id));
-      toast.success('Car deleted successfully!');
+      setCars((prev) => prev.filter((car) => car._id !== id));
+      toast.success("Car deleted successfully!");
     } catch (error: any) {
-      toast.error('Failed to delete car');
+      toast.error("Failed to delete car");
     }
   };
 
@@ -429,36 +433,36 @@ export default function Dashboard() {
         <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
         <div className="flex flex-nowrap gap-2 overflow-x-auto">
           <Button
-            onClick={() => setFilter('all')}
-            variant={filter === 'all' ? 'primary' : 'secondary'}
+            onClick={() => setFilter("all")}
+            variant={filter === "all" ? "primary" : "secondary"}
             size="sm"
           >
             All Cars
           </Button>
           <Button
-            onClick={() => setFilter('sold')}
-            variant={filter === 'sold' ? 'primary' : 'secondary'}
+            onClick={() => setFilter("sold")}
+            variant={filter === "sold" ? "primary" : "secondary"}
             size="sm"
           >
             Sold Cars
           </Button>
           <Button
-            onClick={() => setFilter('unsold')}
-            variant={filter === 'unsold' ? 'primary' : 'secondary'}
+            onClick={() => setFilter("unsold")}
+            variant={filter === "unsold" ? "primary" : "secondary"}
             size="sm"
           >
             Available Cars
           </Button>
           <Button
-            onClick={() => setFilter('deposit')}
-            variant={filter === 'deposit' ? 'primary' : 'secondary'}
+            onClick={() => setFilter("deposit")}
+            variant={filter === "deposit" ? "primary" : "secondary"}
             size="sm"
           >
             Deposit Taken
           </Button>
           <Link to="/cars/create">
             <Button className="flex items-center">
-              <Plus className="h-4 w-4 mr-2 hidden sm:inline" /> 
+              <Plus className="h-4 w-4 mr-2 hidden sm:inline" />
               Add New Car
             </Button>
           </Link>
@@ -467,7 +471,9 @@ export default function Dashboard() {
 
       {cars.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">No cars found. Start by adding your first car!</p>
+          <p className="text-gray-500 text-lg">
+            No cars found. Start by adding your first car!
+          </p>
           <Link to="/cars/create" className="mt-4 inline-block">
             <Button>
               <Plus className="h-4 w-4 mr-2" />
@@ -478,7 +484,10 @@ export default function Dashboard() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {cars.map((car) => (
-            <div key={car._id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
+            <div
+              key={car._id}
+              className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
+            >
               <div className="h-48 bg-gray-200 relative">
                 {car.images.length > 0 ? (
                   <img
@@ -514,13 +523,16 @@ export default function Dashboard() {
                         : "bg-green-100 text-green-800"
                     }`}
                   >
-                    {car.status === "unsold" ? "AVAILABLE" : car.status.toUpperCase()}
+                    {car.status === "unsold"
+                      ? "AVAILABLE"
+                      : car.status.toUpperCase()}
                   </span>
                 </div>
-
               </div>
               <div className="p-4">
-                <h3 className="text-lg font-semibold text-gray-900 mb-1">{car.title}</h3>
+                <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                  {car.title}
+                </h3>
                 <p className="text-sm text-gray-600 mb-2">{car.make}</p>
                 <p className="text-xl font-bold text-blue-600 mb-4">
                   ${car.price.toLocaleString()}
@@ -541,20 +553,20 @@ export default function Dashboard() {
                   <Button
                     size="sm"
                     variant={
-                      car.status === 'sold'
-                        ? 'warning'
-                        : car.status === 'deposit'
-                        ? 'warning'
-                        : 'success'
+                      car.status === "sold"
+                        ? "warning"
+                        : car.status === "deposit"
+                        ? "warning"
+                        : "success"
                     }
                     onClick={() => handleCycleStatus(car._id)}
                   >
                     <CheckCircle className="h-4 w-4 mr-1" />
-                    {car.status === 'sold'
-                      ? 'Mark Available'
-                      : car.status === 'deposit'
-                      ? 'Mark Sold'
-                      : 'Mark Deposit'}
+                    {car.status === "sold"
+                      ? "Mark Available"
+                      : car.status === "deposit"
+                      ? "Mark Sold"
+                      : "Mark Deposit"}
                   </Button>
                   <Button
                     size="sm"
