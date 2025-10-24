@@ -2986,7 +2986,7 @@ export default function CarForm({ initialData, onSubmit, onPublish, isNew = fals
       revokeUrlsSafely(imagePreviews);
       revokeUrlsSafely(videoPreviews);
 
-      toast.success("Draft cleared successfully");
+      // toast.success("Draft cleared successfully");
     } catch (error) {
       console.error("Error clearing draft:", error);
       toast.error("Could not clear draft");
